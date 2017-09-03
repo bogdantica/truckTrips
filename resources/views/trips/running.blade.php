@@ -5,6 +5,8 @@
                 <h6 class="panel-title">Cursa Curenta</h6>
             </div>
 
+            {{--todo refactor this for responsive--}}
+
             <div class="table-responsive">
                 <table class="table table-lg text-nowrap">
                     <tbody>

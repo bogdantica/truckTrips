@@ -19,7 +19,7 @@
                         <div class="dashboard-action">
                             <i class="icon-truck"></i>
                         </div>
-                        <h2>Incheie Cursa</h2>
+                        <h2>Incheie</h2>
                     </div>
                 </div>
             </a>
