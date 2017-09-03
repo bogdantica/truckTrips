@@ -8,11 +8,11 @@
 @endif
 
 <div class="row">
-    <div class="col-xs-3"></div>
+    <div class="col-xs-3 hidden-xs"></div>
 
     @if(!empty($trip))
 
-        <div class="col-xs-3">
+        <div class="col-xs-6 col-sm-3">
             <a href="{{ route('trip.end',['trip' => $trip->id,'endTrip' => true]) }}">
                 <div class="panel bg-primary-600 panel-bordered text-center">
                     <div class="panel-body">
@@ -26,7 +26,7 @@
         </div>
 
     @else
-        <div class="col-xs-3">
+        <div class="col-xs-6 col-sm-3">
             <a href="{{ route('trip.new') }}">
                 <div class="panel bg-success-600 panel-bordered text-center">
                     <div class="panel-body">
@@ -40,8 +40,7 @@
         </div>
     @endif
 
-
-    <div class="col-xs-3">
+    <div class="col-xs-6 col-sm-3">
         <a href="#">
             <div class="panel bg-warning-600 panel-bordered text-center">
                 <div class="panel-body">
@@ -53,7 +52,7 @@
             </div>
         </a>
     </div>
-    <div class="col-xs-3"></div>
+    <div class="col-xs-3 hidden-xs"></div>
 </div>
 
 @endpush
