@@ -32,8 +32,16 @@ class TripRequest extends FormRequest
             'load_volume' => 'required_without:load_weight|nullable|numeric',
             'pay_distance' => 'required|numeric',
             'real_distance' => 'nullable|numeric',
-            'basic_points.10.place_id' => 'required|present|string:max255',
-            'basic_points.30.place_id' => 'required|present|string:max255',
+
+            'start_point.place_id' => 'required|present|string|max:255',
+            'start_point.current_kilometers' => 'required|numeric',
+            'start_point.departed_at' => 'required|date_format:d/m/Y H:i',
+
+            'end_point.place_id' => 'required|present|string|max:255',
+            'end_point.current_kilometers' => 'nullable|numeric',
+            'end_point.departed_at' => 'nullable|date_format:d/m/Y H:i',
+
+
         ];
     }
 
@@ -49,9 +57,15 @@ class TripRequest extends FormRequest
             'load_volume.required_without' => 'Scrie Volumnul sau Masa Neta',
             'pay_distance.required' => 'Scrie Distanta oferta de expeditor',
             'real_distance.numeric' => 'Distanta trebuie sa fie de forma Numerica',
-            'basic_points.10.place_id.required' => 'Alege Locul de Plecare',
-            'basic_points.30.place_id.required' => 'Alege Locul de Sosire',
 
+            'start_point.place_id.required' => 'Alege Locul de Plecare',
+            'start_point.current_kilometers.required' => 'Kilometri la plecare sunt necesari',
+            'start_point.departed_at.required' => 'Data plecarii este necesara',
+            'start_point.departed_at.date_format' => 'Data trebuie sa fie de forma: zi/luna/an ora:minut, Ex: 24/09/2015 10:12',
+
+
+            'end_point.place_id.required' => 'Alege Locul de Sosire',
+            'end_point.departed_at' => 'Data trebuie sa fie de forma: zi/luna/an ora:minut, Ex: 24/09/2015 10:12',
         ];
     }
 

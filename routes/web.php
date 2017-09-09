@@ -19,6 +19,11 @@ Route::get('/logout', [
     }
 ]);
 
+Route::get('/login/{token}', [
+    'as' => 'login.token',
+    'uses' => 'Auth\LoginController@byToken'
+]);
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/driver', [
@@ -27,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
         ]
     );
 
-    Route::get('/trip/end/{trip}/', [
+    Route::post('/trip/end/{trip}/', [
         'as' => 'trip.end',
         'uses' => 'TripsController@end'
     ]);

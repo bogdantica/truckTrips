@@ -61,7 +61,6 @@ class GooglePlace
         $resp = $this->request($url, $params);
         $collection = collect($resp->predictions ?? []);
 
-
         $results = $collection->map(function ($place) {
 
             if (!isset($place->place_id)) {

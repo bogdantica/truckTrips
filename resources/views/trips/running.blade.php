@@ -19,15 +19,15 @@
                             </div>
 
                             <div class="media-left">
-                                <h5 class="text-semibold no-margin">{{ $trip->basicPoints->first()->place->name }}</h5>
+                                <h5 class="text-semibold no-margin">{{ $trip->startPoint->place->name }}</h5>
                                 <ul class="list-inline list-inline-condensed no-margin">
 
-                                    @if($trip->basicPoints->first()->departed_at)
+                                    @if($trip->startPoint->departed_at)
                                         <li>
                                             <span class="status-mark border-success"></span>
                                         </li>
                                         <li>
-                                            <span class="text-muted">{{  $trip->basicPoints->first()->departed_at->format('H:m m/d/Y')}}</span>
+                                            <span class="text-muted">{{  $trip->startPoint->departed_at->format('H:m m/d/Y')}}</span>
                                         </li>
                                     @endif
                                 </ul>
@@ -44,12 +44,12 @@
                                 <h5 class="text-semibold no-margin">{{ $trip->truck->registration }}</h5>
                                 <h6 class="text-semibold no-margin">{{ $trip->truck->name }}</h6>
                                 <ul class="list-inline list-inline-condensed no-margin">
-                                    @if($trip->basicPoints->last()->departed_at)
+                                    @if($trip->endPoint->departed_at)
                                         <li>
                                             <span class="status-mark border-success"></span>
                                         </li>
                                         <li>
-                                            <span class="text-muted">{{  $trip->basicPoints->last()->departed_at->format('H:m m/d/Y')}}</span>
+                                            <span class="text-muted">{{  $trip->endPoint->departed_at->format('H:m m/d/Y')}}</span>
                                         </li>
                                     @endif
                                 </ul>
@@ -64,14 +64,14 @@
                                 </div>
                             </div>
                             <div class="media-left pull-right">
-                                <h5 class="text-semibold no-margin">{{ $trip->basicPoints->last()->place->name }}</h5>
+                                <h5 class="text-semibold no-margin">{{ $trip->endPoint->place->name }}</h5>
                                 <ul class="list-inline list-inline-condensed no-margin">
-                                    @if($trip->basicPoints->last()->departed_at)
+                                    @if($trip->endPoint->departed_at)
                                         <li>
                                             <span class="status-mark border-success"></span>
                                         </li>
                                         <li>
-                                            <span class="text-muted">{{  $trip->basicPoints->last()->departed_at->format('H:m m/d/Y')}}</span>
+                                            <span class="text-muted">{{  $trip->endPoint->departed_at->format('H:m m/d/Y')}}</span>
                                         </li>
                                     @endif
                                 </ul>
@@ -112,3 +112,59 @@
     </div>
 
 </div>
+
+<div class="modal fade" id="endTripModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Incheie Cursa</h4>
+            </div>
+            {!! Form::open(['url' => route('trip.end',['trip' => $trip->id]),'method' => 'POST']) !!}
+            <div class="modal-body">
+                <div class="form-group has-feedback has-feedback-left">
+                    {!! Form::hidden('end_point[latitude]',null,['class' => 'endLatitude']) !!}
+                    {!! Form::hidden('end_point[longitude]',null,['class' => 'endLongitude']) !!}
+
+                    {!! Form::text('end_point[current_kilometers]',null,['class' => 'form-control input-xlg', 'placeholder' => 'Kilometraj Sosire']) !!}
+                    <div class="form-control-feedback">
+                        <i class="icon-meter2"></i>
+                    </div>
+                </div>
+                <div class="form-group has-feedback has-feedback-left ">
+                    <label>Ora Sosire</label>
+                    {!! Form::text('end_point[departed_at]',\Carbon\Carbon::now()->addHours('3')->format('d/m/Y H:i'),['class' => 'form-control input-xlg inputTime']) !!}
+                    <div class="form-control-feedback">
+                        <i class="glyphicon glyphicon-time"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success btn-lg">Cursa Terminata</button>
+                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal">Inchide</button>
+            </div>
+
+            {!! Form::close() !!}
+
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+
+    $('#endTripModal').on('shown.bs.modal', function () {
+        (function () {
+            console.log('here');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (params) {
+                    $('.startLatitude').val(params.coords.latitude);
+                    $('.startLongitude').val(params.coords.longitude);
+                });
+            }
+        })();
+    });
+
+    $('form').form2();
+</script>
+@endpush

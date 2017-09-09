@@ -6,6 +6,7 @@ use App\Http\Requests\TripRequest;
 use App\Models\Company;
 use App\Models\EventType;
 use App\Models\Place;
+use App\Models\PointType;
 use App\Models\Trip;
 use App\Models\Truck;
 use App\Models\User;
@@ -17,15 +18,19 @@ class TripsController extends Controller
 {
     public function new()
     {
-
         $companies = Company::pluck('name', 'id');
-        $trucks = Truck::pluck('registration', 'id');
 
         $drivers = User::pluck('name', 'id');
 
-        $driver = \Auth::user()->id;
+        $driver = \Auth::user();
 
-        return view('trips.trip', compact('companies', 'trucks', 'drivers', 'driver'));
+        $driver->load('trucks');
+
+        $trucks = $driver->trucks->pluck('registration', 'id');
+
+        $places = Place::limit(10)->pluck('name', 'id');
+
+        return view('trips.trip', compact('companies', 'trucks', 'drivers', 'driver','places'));
     }
 
     public function start(TripRequest $request)
@@ -49,39 +54,40 @@ class TripsController extends Controller
         ];
 
         \DB::transaction(function () use ($newTripData, $request) {
+
+
             $newTrip = Trip::create($newTripData);
 
-            $points = $request->basic_points;
+            $start = (object)$request->start_point;
 
-            //todo add valdidation to pointTypeId
+            $startId = Place::parseRequest($start->place_id)->id;
 
-            foreach ($points as $pointTypeId => $point) {
-                $point = (object)$point;
+            $newTrip->startPoint()->create([
+                'point_type_id' => PointType::START,
+                'place_id' => $startId,
+                'current_kilometers' => $start->current_kilometers,
+                'description' => $start->description ?? null,
+                'departed_at' => Carbon::createFromFormat("d/m/Y H:i", $start->departed_at),//todo parse this with carbon,
+                'latitude' => $start->latitude ?? null,
+                'longitude' => $start->longitude ?? null,
+            ]);
 
-                if (!isset($point->place_id)) {
-                    continue;
-                }
+            $end = (object)$request->end_point;
 
-                $place = Place::parseRequest($point->place_id);
+            $endId = Place::parseRequest($end->place_id)->id;
 
-                $departedAt = null;
-                if (isset($point->departed_at)) {
-                    $departedAt = Carbon::createFromFormat("d/m/Y H:i", $point->departed_at);
-                }
+            $newTrip->endPoint()->create([
+                'point_type_id' => PointType::END,
+                'place_id' => $endId,
+                'description' => $end->description ?? null,
+                'current_kilometers' => $end->current_kilometers ?? null,
+                'departed_at' => isset($end->departed_at) ? Carbon::createFromFormat("d/m/Y H:i", $end->departed_at) : null,//todo parse this with carbon,
+                'latitude' => $end->latitude ?? null,
+                'longitude' => $end->longitude ?? null,
+            ]);
 
-                $newTrip->basicPoints()->create([
-                    'point_type_id' => $pointTypeId,
-                    'place_id' => $place->id,
-                    'description' => $point->description ?? null,
-                    'departed_at' => $departedAt ?? null,//todo parse this with carbon,
-                    'latitude' => $point->latitude ?? null,
-                    'longitude' => $point->longitude ?? null,
-                ]);
-
-            }
 
         });
-
 
         return new JsonResponse([
             'redirect' => route('driver')
@@ -91,14 +97,37 @@ class TripsController extends Controller
 
     public function end(Trip $trip, Request $request)
     {
-        if ($request->has('endTrip') && $request->endTrip == true) {
-            $trip->load('basicPoints');
+        $this->validate($request, [
+            'end_point.endLatitude' => 'numeric|nullable',
+            'end_point.endLongitude' => 'numeric|nullable',
 
-            $trip->basicPoints->last()->departed_at = Carbon::now();
-            $trip->basicPoints->last()->save();
-        }
+            'end_point.current_kilometers' => 'required|numeric',
+            'end_point.departed_at' => 'required|date_format:d/m/Y H:i'
+        ], [
+            'end_point.current_kilometers.required' => 'Kilometrii la sosire sunt necesari',
+            'end_point.current_kilometers.numeric' => 'Campul este numeric',
+            'end_point.departed_at.date_format' => 'Data trebuie sa fie de forma: zi/luna/an ora:minut, Ex: 24/09/2015 10:12',
+            'end_point.departed_at.required' => 'Data sosirii este necesara'
+        ]);
 
-        return redirect()->back();
+        $trip->load('endPoint');
+
+        $end = (object)$request->end_point;
+
+        $trip->endPoint->fill([
+            'description' => $end->description ?? null,
+            'current_kilometers' => $end->current_kilometers,
+            'departed_at' => Carbon::createFromFormat("d/m/Y H:i", $end->departed_at),
+            'latitude' => $end->latitude ?? null,
+            'longitude' => $end->longitude ?? null,
+        ])
+            ->save();
+
+
+        return new JsonResponse([
+            'redirect' => route('driver')
+        ]);
+
     }
 
 

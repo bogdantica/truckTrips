@@ -12,13 +12,14 @@ class DriversController extends Controller
 
         $trip = Trip::where('driver_user_id', $driver->id)
             ->orderBy('created_at', 'DESC')
-            ->with('basicPoints.place')
+            ->with('startPoint.place')
+            ->with('endPoint.place')
             ->with('truck')
             ->with('sender')
             ->with('receiver')
             ->first();
 
-        if ($trip->basicPoints->last()->departed_at) {
+        if ($trip && $trip->endPoint->departed_at) {
             $trip = null;
         }
 

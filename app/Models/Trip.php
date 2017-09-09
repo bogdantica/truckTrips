@@ -21,11 +21,19 @@ class Trip extends BaseModel
         'event_type_id',
     ];
 
-    public function basicPoints()
+    public function startPoint()
     {
-        return $this->hasMany(Point::class, 'trip_id', 'id')
-            ->whereIn('point_type_id', [PointType::START, PointType::END])
+        return $this->hasOne(Point::class)
+            ->where('point_type_id', PointType::START)
             ->orderBy('created_at');
+    }
+
+    public function endPoint()
+    {
+        return $this->hasOne(Point::class)
+            ->where('point_type_id', PointType::END)
+            ->orderBy('created_at');
+
     }
 
     public function truck()

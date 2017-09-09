@@ -13,13 +13,15 @@
     @if(!empty($trip))
 
         <div class="col-xs-6 col-sm-3">
-            <a href="{{ route('trip.end',['trip' => $trip->id,'endTrip' => true]) }}">
+            <a data-toggle="modal" href="#endTripModal">
                 <div class="panel bg-primary-600 panel-bordered text-center">
                     <div class="panel-body">
                         <div class="dashboard-action">
                             <i class="icon-truck"></i>
                         </div>
-                        <h2>Incheie</h2>
+                        <h2>
+                            Incheie
+                        </h2>
                     </div>
                 </div>
             </a>

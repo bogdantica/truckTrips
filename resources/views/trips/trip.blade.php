@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group form-group has-feedback has-feedback-left">
-                                {!! Form::select('sender_company_id',$companies,null,['class' => 'form-control input-xlg companyInput', 'data-placeholder' => 'Expeditor','placeholder' => 'Expeditor']) !!}
+                                {!! Form::select('sender_company_id',$companies,$companies->keys()->first(),['class' => 'form-control input-xlg companyInput', 'data-placeholder' => 'Expeditor','placeholder' => 'Expeditor']) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-office"></i>
                                 </div>
@@ -22,7 +22,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group has-feedback has-feedback-left">
-                                {!! Form::select('receiver_company_id',$companies,null,['class' => 'form-control input-xlg companyInput', 'data-placeholder' => 'Destinatar', 'placeholder' => 'Destinatar']) !!}
+                                {!! Form::select('receiver_company_id',$companies,$companies->keys()->first(),['class' => 'form-control input-xlg companyInput', 'data-placeholder' => 'Destinatar', 'placeholder' => 'Destinatar']) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-office"></i>
                                 </div>
@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group has-feedback has-feedback-left">
-                                {!! Form::select('truck_id',$trucks,null,['class' => 'form-control input-xlg truckInput', 'data-placeholder' => 'Camion','placeholder' => 'Camion']) !!}
+                                {!! Form::select('truck_id',$trucks,$trucks->keys()->first(),['class' => 'form-control input-xlg truckInput', 'data-placeholder' => 'Camion','placeholder' => 'Camion']) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-truck"></i>
                                 </div>
@@ -43,8 +43,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group has-feedback has-feedback-left">
-                                {!! Form::hidden('driver_user_id',$driver) !!}
-                                {!! Form::select('driver_user_id',$drivers,$driver,['class' => 'form-control input-xlg driverInput', 'data-placeholder' => 'Sofer','disabled']) !!}
+                                {!! Form::hidden('driver_user_id',$driver->id) !!}
+                                {!! Form::select('driver_user_id',$drivers,$driver->id,['class' => 'form-control input-xlg driverInput', 'data-placeholder' => 'Sofer','disabled']) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-man"></i>
                                 </div>
@@ -107,9 +107,9 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group has-feedback has-feedback-left ">
-                                {!! Form::hidden('basic_points[10][latitude]',null,['class' => 'startLatitude']) !!}
-                                {!! Form::hidden('basic_points[10][longitude]',null,['class' => 'startLongitude']) !!}
-                                {!! Form::select('basic_points[10][place_id]',[],null,['class' => 'form-control input-xlg placeInput', 'data-placeholder' => 'Plecare Din']) !!}
+                                {!! Form::hidden('start_point[latitude]',null,['class' => 'startLatitude']) !!}
+                                {!! Form::hidden('start_point[longitude]',null,['class' => 'startLongitude']) !!}
+                                {!! Form::select('start_point[place_id]',[],null,['class' => 'form-control input-xlg placeInput', 'data-placeholder' => 'Plecare Din']) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-airplane3"></i>
                                 </div>
@@ -118,11 +118,10 @@
 
                         <div class="col-md-6">
                             <div class="form-group has-feedback has-feedback-left">
-                                {!! Form::text('basic_points[10][current_kilometers]',null,['class' => 'form-control input-xlg', 'placeholder' => 'Kilometraj Plecare']) !!}
+                                {!! Form::text('start_point[current_kilometers]',null,['class' => 'form-control input-xlg', 'placeholder' => 'Kilometraj Plecare']) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-meter2"></i>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -131,7 +130,7 @@
                         <div class="col-md-6">
                             <div class="form-group has-feedback has-feedback-left ">
                                 <label>Ora Plecare</label>
-                                {!! Form::text('basic_points[10][departed_at]',\Carbon\Carbon::now()->addHours('3')->format('d/m/Y H:i'),['class' => 'form-control input-xlg inputTime', 'placeholder' => 'Timp Plecare']) !!}
+                                {!! Form::text('start_point[departed_at]',\Carbon\Carbon::now()->addHours('3')->format('d/m/Y H:i'),['class' => 'form-control input-xlg inputTime', 'placeholder' => 'Timp Plecare']) !!}
                                 <div class="form-control-feedback">
                                     <i class="glyphicon glyphicon-time"></i>
                                 </div>
@@ -141,7 +140,7 @@
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label>Detalii</label>
-                                <textarea name="basic_points[10][description]" placeholder="Optional"
+                                <textarea name="start_point[description]" placeholder="Optional"
                                           class="form-control input-xlg"></textarea>
                             </div>
                         </div>
@@ -154,7 +153,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group has-feedback has-feedback-left ">
-                                {!! Form::select('basic_points[30][place_id]',[],null,['class' => 'form-control input-xlg placeInput', 'data-placeholder' => 'Sosire In']) !!}
+                                {!! Form::select('end_point[place_id]',[],null,['class' => 'form-control input-xlg placeInput', 'data-placeholder' => 'Sosire In']) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-airplane3"></i>
                                 </div>
@@ -163,7 +162,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group has-feedback has-feedback-left">
-                                {!! Form::text('basic_points[30][current_kilometers]',null,['class' => 'form-control input-xlg', 'placeholder' => 'Kilometraj Sosire']) !!}
+                                {!! Form::text('end_point[current_kilometers]',null,['class' => 'form-control input-xlg', 'placeholder' => 'Kilometraj Sosire']) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-meter2"></i>
                                 </div>
@@ -176,7 +175,7 @@
                         <div class="col-md-6">
                             <div class="form-group has-feedback has-feedback-left ">
                                 <label>Ora Sosire</label>
-                                {!! Form::text('basic_points[30][departed_at]',null,['class' => 'form-control input-xlg inputTime' , 'placeholder' => 'La sosire','disabled']) !!}
+                                {!! Form::text('end_point[departed_at]',null,['class' => 'form-control input-xlg inputTime' , 'placeholder' => 'La sosire','disabled']) !!}
                                 <div class="form-control-feedback">
                                     <i class="glyphicon glyphicon-time"></i>
                                 </div>
