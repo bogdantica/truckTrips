@@ -11,10 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        \App\Models\User::create([
+            'name' => 'Bogdan TICA',
+            'email' => 'tica.bogdan@yahoo.ro',
+            'password' => bcrypt('admin123')
+        ]);
+
         // $this->call(UsersTableSeeder::class);
         $this->call(LookUpSeeder::class);
-
-        $this->call(TicaTransSeed::class);
 
     }
 }

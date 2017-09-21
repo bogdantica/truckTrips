@@ -29,21 +29,20 @@
 <body>
 
 @include('components.navbar')
-
 <!-- Page container -->
 <div class="page-container">
 
     <!-- Page content -->
     <div class="page-content">
 
-    @if(isset($sidebar))
+    {{--@if(isset($sidebar))--}}
         @include('components.sidebar.sidebar')
-    @endif
+    {{--@endif--}}
     <!-- Main content -->
         <div class="content-wrapper">
-            @if(isset($title) || isset($breadcrumbs))
+            {{--            @if(isset($title) || isset($breadcrumbs))--}}
                 @include('components.header')
-            @endif
+            {{--@endif--}}
             <div class="content">
 
                 @stack('content')
@@ -72,6 +71,12 @@
 <script type="text/javascript" src="/assets/js/plugins/pickers/datetimepicker/datetimepicker.min.js"></script>
 <script type="text/javascript" src="/assets/js/app/app.js"></script>
 <script type="text/javascript" src="/assets/js/app/form2.js"></script>
+<script type="text/javascript" src="/assets/js/app/form2.js"></script>
+
+<script type="text/javascript" src="/assets/js/plugins/editors/wysihtml5/toolbar.js"></script>
+<script type="text/javascript" src="/assets/js/plugins/editors/cookie/cookie.js"></script>
+<script type="text/javascript" src="/assets/js/plugins/forms/wizards/steps.min.js"></script>
+
 
 <script type="text/javascript" src="/assets/js/core/app.js"></script>
 @stack('scripts')

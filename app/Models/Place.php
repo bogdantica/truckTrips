@@ -5,6 +5,29 @@ namespace App\Models;
 
 use App\Truck\GooglePlace;
 
+/**
+ * App\Models\Place
+ *
+ * @mixin \Eloquent
+ * @property int $id
+ * @property string $name
+ * @property string|null $region
+ * @property string|null $google_place_id
+ * @property float|null $latitude
+ * @property float|null $longitude
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereGooglePlaceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereRegion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereUpdatedAt($value)
+ */
 class Place extends BaseModel
 {
     protected $fillable = [
@@ -19,7 +42,7 @@ class Place extends BaseModel
      * @param $id
      * @return $this
      */
-    protected function parseRequest($id)
+    public static function parseRequest($id)
     {
         if (is_numeric($id)) {
             return static::find($id, ['id']);

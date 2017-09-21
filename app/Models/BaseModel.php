@@ -10,9 +10,19 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
+
+/**
+ * App\Models\BaseModel
+ *
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\BaseModel onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\BaseModel withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\BaseModel withoutTrashed()
+ * @mixin \Eloquent
+ */
 class BaseModel extends Model
 {
-    use SoftDeletes;
+//    use SoftDeletes;
 }

@@ -18,6 +18,18 @@ class CreateCompaniesTable extends Migration
             $table->string('name');
             $table->string('cif')->nullable();
             $table->string('reg_id')->nullable();
+
+            $table->text('address')->nullable();
+            $table->integer('place_id')->nullable();
+            $table->string('fax_number')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
+            $table->integer('contact_user_id')->index()->nullable();
+
+
+
+
             $table->timestamps();
             $table->softDeletes();
         });

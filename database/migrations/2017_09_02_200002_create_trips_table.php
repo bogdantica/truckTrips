@@ -20,24 +20,26 @@ class CreateTripsTable extends Migration
             $table->integer('sender_company_id')->nullable();
             $table->integer('receiver_company_id')->nullable();
 
-            $table->integer('truck_id')->unsigned()->index()->nullable();
             $table->integer('driver_user_id')->unsigned()->index()->nullable();
 
-            $table->text('description')->nullable();
+            $table->float('distance')->nullable();
 
-            $table->float('pay_distance')->nullable();
-            $table->float('payed_distance')->nullable();
-            $table->float('real_distance')->nullable();
+            $table->float('total_price')->nullable();
+            $table->integer('vat_id')->nullable();
 
-            $table->float('load_weight')->nullable();
-            $table->float('payed_load_weight')->nullable();
-            $table->float('load_volume')->nullable();
-            $table->float('payed_load_volume')->nullable();
 
-            $table->integer('event_type_id')->index();
+            $table->text('details')->nullable();
+
+            $table->integer('pay_method_id')->index()->nullable();
+            $table->integer('pay_days')->nullable();
+            $table->text('pay_details')->nullable();
+            $table->text('agreement')->nullable();
+
+            $table->date('agreement_date')->nullable();
 
             $table->integer('edited_by')->index()->nullable();
             $table->integer('created_by')->index()->nullable();
+
 
             $table->timestamps();
             $table->softDeletes();

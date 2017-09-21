@@ -3,7 +3,8 @@
 namespace App\Models;
 
 
-class Truck extends BaseModel
+
+class Vehicle extends BaseModel
 {
     protected $fillable = [
         'name',
@@ -16,7 +17,7 @@ class Truck extends BaseModel
      * @param $id
      * @return $this
      */
-    protected function parseRequest($id)
+    public static function parseRequest($id)
     {
         if (is_numeric($id)) {
             return static::find($id, ['id']);

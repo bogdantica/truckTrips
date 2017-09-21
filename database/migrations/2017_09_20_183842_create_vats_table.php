@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTrucksTable extends Migration
+class CreateVatsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateUsersTrucksTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_users', function (Blueprint $table) {
-            $table->integer('company_id')->index();
-            $table->integer('user_id')->index();
+        Schema::create('vats', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->float('percentage');
         });
     }
 
@@ -26,6 +27,6 @@ class CreateUsersTrucksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_users');
+        Schema::dropIfExists('vats');
     }
 }

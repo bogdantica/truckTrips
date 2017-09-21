@@ -5,32 +5,62 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TripRequest;
 use App\Models\Company;
 use App\Models\EventType;
+use App\Models\PayMethod;
 use App\Models\Place;
 use App\Models\PointType;
 use App\Models\Trip;
 use App\Models\Truck;
-use App\Models\User;
+use App\Models\Vat;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TripsController extends Controller
 {
+    public function trips()
+    {
+
+        $query = Trip::with([
+            'startPoint',
+            'payMethod',
+            'endPoint',
+            'points',
+            'driver',
+            'sender',
+            'receiver'
+        ]);
+
+        $trips = $query->get();
+
+        return view('trips.trips', compact('trips'));
+    }
+    
+    
     public function new()
     {
+        $company = Company::first();
+
         $companies = Company::pluck('name', 'id');
 
-        $drivers = User::pluck('name', 'id');
+        $drivers = $company->drivers()->pluck('name', 'id');
 
-        $driver = \Auth::user();
+        $vehicles = $company->vehicles()->pluck('registration', 'id');
 
-        $driver->load('trucks');
+        $payMethod = PayMethod::pluck('name', 'id');
+        $vats = Vat::pluck('name', 'id');
 
-        $trucks = $driver->trucks->pluck('registration', 'id');
+        $trip = new Trip();
 
-        $places = Place::limit(10)->pluck('name', 'id');
-
-        return view('trips.trip', compact('companies', 'trucks', 'drivers', 'driver','places'));
+        return view('trips.trip', compact(
+                'company',
+                'companies',
+                'drivers',
+                'vehicles',
+                'payMethod',
+                'vats',
+                'trip'
+            )
+        );
     }
 
     public function start(TripRequest $request)

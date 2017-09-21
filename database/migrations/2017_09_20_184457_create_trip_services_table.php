@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddLoginTokenUsersTable extends Migration
+class CreateTripServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddLoginTokenUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('token')->nullable()->unique()->index();
+        Schema::create('trip_services', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->float('quantity');
+            $table->float('price');
+            $table->integer('trip_id')->index();
         });
     }
 
@@ -25,6 +29,6 @@ class AddLoginTokenUsersTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('trip_services');
     }
 }

@@ -13,14 +13,17 @@ class CreateTrucksTable extends Migration
      */
     public function up()
     {
-        Schema::create('trucks', function (Blueprint $table) {
+        Schema::create('vehicles', function (Blueprint $table) {
+
             $table->increments('id');
 
-            $table->string('name')->nullable();
             $table->string('registration');
-            $table->string('external_uid')->nullable();
+            $table->string('name')->nullable();
             $table->string('vin')->nullable();
+            $table->string('external_uid')->nullable();
 
+            $table->integer('vehicle_type_id')->index()->nullable();
+            $table->float('max_weight')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

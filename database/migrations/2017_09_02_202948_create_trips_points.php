@@ -20,15 +20,18 @@ class CreateTripsPoints extends Migration
             $table->integer('point_type_id')->index();
             $table->integer('place_id')->nullable()->index();
 
-            $table->text('description')->nullable();
+            $table->integer('cargo_type_id')->index()->nullable();
 
-            $table->float('current_kilometers')->nullable();
 
-            $table->dateTime('arrived_at')->nullable();
-            $table->dateTime('departed_at')->nullable();
+            $table->float('cargo_weight')->nullable();
+            $table->float('cargo_volume')->nullable();
 
-            $table->float('latitude')->nullable();
-            $table->float('longitude')->nullable();
+            $table->text('details')->nullable();
+            $table->date('schedule_date')->nullable();
+            $table->time('schedule_time')->nullable();
+
+            $table->date('confirmed_date')->nullable();
+            $table->time('confirmed_time')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

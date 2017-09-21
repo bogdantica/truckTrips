@@ -13,10 +13,10 @@
 
     <div class="navbar-collapse collapse" id="navbar-mobile">
         <ul class="nav navbar-nav">
-            @if(isset($sidebar))
+            {{--@if(isset($sidebar))--}}
 
                 <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
-                    @endif
+                    {{--@endif--}}
                 </li>
                 @if(isset($notifications))
                     <li class="dropdown">

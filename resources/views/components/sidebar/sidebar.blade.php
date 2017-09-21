@@ -1,6 +1,5 @@
 <div class="sidebar sidebar-main">
     <div class="sidebar-content">
-
         @auth
         <div class="sidebar-user">
             <div class="category-content">
@@ -19,7 +18,7 @@
                 <ul class="navigation navigation-main navigation-accordion">
                     <li class="navigation-header"><span>Menu</span> <i class="icon-menu" title="Menu"></i></li>
                     <li class=""><a href="{{ url('/') }}"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-                    @include('components.sidebar.items',['items' => config('truck.menu.items',[])])
+                    @include('components.sidebar.items',['items' => config('trudo.menu.items',[])])
                 </ul>
             </div>
         </div>

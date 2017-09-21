@@ -15,10 +15,10 @@
             @endisset
         </div>
 
-        @isset($headerItems)
+        {{--@isset($headerItems)--}}
         <div class="heading-elements">
             <div class="heading-btn-group">
-                @foreach($headerItems as $item)
+                @foreach($headerItems ?? [] as $item)
                     <a href="#" class="btn btn-link btn-float has-text">
                         @isset($item['icon'])
                         <i class="text-primary {{ $item['icon'] }}"></i>
@@ -26,9 +26,10 @@
                         <span>{{ $item['title'] }}</span>
                     </a>
                 @endforeach
+                @stack('headingElements')
             </div>
         </div>
-        @endisset
+        {{--@endisset--}}
     </div>
 
     @isset($breadcrumbs)
@@ -42,6 +43,7 @@
                         {{ $item['title'] }}
                     </a>
                 </li>
+                @stack('breadcrumbItems')
             @endforeach
         </ul>
 
