@@ -25,8 +25,8 @@
     line-height: 2;
 }
 
-.input-xlg + .form-control-feedback .glyphicon {
-    top: 2px;
+.input-xlg ~ .form-control-feedback .glyphicon {
+    top: 4px !important;
 }
 
 .has-error .select2-selection {
@@ -37,4 +37,29 @@
 
 .currentTripIcon i {
     font-size: 3em;
+}
+
+.input-xlg + .has-feedback label ~ .form-control-feedback {
+    top: 27px;
+}
+
+.picker__input[readonly] {
+    background-color: inherit !important;
+}
+
+.picker__list [role="presentation"]{
+    position: absolute;
+    top:0;
+    right: 0;
+    z-index: 20;
+}
+.picker__list [role="presentation"] button{
+    margin-top: 0;
+}
+.picker__list{
+    padding-top: 0;
+}
+.picker--time{
+    max-width: 100%;
+    min-width: inherit;
 }

@@ -63,8 +63,12 @@ class TripsController extends Controller
         );
     }
 
-    public function start(TripRequest $request)
+    public function storeNew(TripRequest $request)
     {
+
+        dd($request->all());
+
+
         $sender = Company::parseRequest($request->sender_company_id);
 
         $receiver = Company::parseRequest($request->receiver_company_id);

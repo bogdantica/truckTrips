@@ -23,6 +23,9 @@ class TripRequest extends FormRequest
      */
     public function rules()
     {
+
+        return [];
+
         return [
             'sender_company_id' => 'required|present|string|max:255',
             'receiver_company_id' => 'required|present|string|max:255',

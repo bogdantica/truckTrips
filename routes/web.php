@@ -58,13 +58,18 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 
     Route::get('/trips/new', [
-        'as' => 'trip.new',
+        'as' => 'trips.new',
         'uses' => 'TripsController@new'
     ]);
 
     Route::post('/trips/new', [
-        'as' => 'trip.start',
-        'uses' => 'TripsController@start'
+        'as' => 'trips.new',
+        'uses' => 'TripsController@storeNew'
+    ]);
+
+    Route::put('/trips/edit', [
+        'as' => 'trips.edit',
+        'uses' => 'TripsController@edit'
     ]);
 
 
@@ -86,10 +91,10 @@ Route::group(['middleware' => 'auth'], function () {
 //    ]);
 //
 //
-//    Route::get('/places', [
-//        'as' => 'places',
-//        'uses' => 'PlacesController@search'
-//    ]);
+    Route::get('/places', [
+        'as' => 'places',
+        'uses' => 'PlacesController@search'
+    ]);
 
 });
 

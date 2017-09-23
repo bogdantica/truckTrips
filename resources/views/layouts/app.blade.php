@@ -17,6 +17,7 @@
     <link href="/assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/colors.css" rel="stylesheet" type="text/css">
     <link href="/assets/js/plugins/pickers/datetimepicker/datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/helpers.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/app.css" rel="stylesheet" type="text/css">
 
     <script>
@@ -76,6 +77,8 @@
 <script type="text/javascript" src="/assets/js/plugins/editors/wysihtml5/toolbar.js"></script>
 <script type="text/javascript" src="/assets/js/plugins/editors/cookie/cookie.js"></script>
 <script type="text/javascript" src="/assets/js/plugins/forms/wizards/steps.min.js"></script>
+<script type="text/javascript" src="/assets/js/plugins/pickers/pickadate/picker.js"></script>
+<script type="text/javascript" src="/assets/js/plugins/pickers/pickadate/picker.time.js"></script>
 
 
 <script type="text/javascript" src="/assets/js/core/app.js"></script>
