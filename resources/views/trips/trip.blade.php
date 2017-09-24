@@ -123,22 +123,10 @@
 
     $(document).ready(function () {
 
-        //
-
         $('.companyContainer .newCompanyAction').modalView({
             elementSelector: '.newCompanyContainer',
-            url: '{{ route('companies.new') }}',
-            afterModalSubmit: function ($form, $r, $element) {
-                //todo add this code to the modalView plugin.
-                var $select = $element.closest('.form-group').find('select');
-                if ($r.isNew == true) {
-                    $select.append('<option value="' + $r.id + '">' + $r.name + '</option>')
-                }
-                $select.val($r.id)
-                    .change();
-            }
-        })
-        ;
+            url: '{{ route('companies.new') }}'
+        });
 
     });
 

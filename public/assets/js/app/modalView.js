@@ -19,7 +19,11 @@
             beforeModalSubmit: function ($form, $element) {
             },
             afterModalSubmit: function ($form, $r, $element) {
-            }
+            },
+            updateElement: 'select',
+            parentSelector: '.form-group',
+            value: 'id',
+            text: 'name'
 
         };
         var plugin = this;
@@ -34,8 +38,6 @@
 
         var handle = function () {
             $element.on('click', function () {
-                console.log(plugin.settings.url);
-
                 $.ajax({
                     method: plugin.settings.method,
                     url: plugin.settings.url,
@@ -63,19 +65,35 @@
 
             var scriptsSelector = plugin.settings.elementSelector + 'Scripts';
 
-
-            console.log('.newCompanyContainerScripts' == scriptsSelector);
-            var scripts = $data.find(plugin.settings.elementSelector + 'Scripts');
+            var scripts = $data.find(scriptsSelector);
             if (!scripts.length) {
-                scripts = $data.filter(plugin.settings.elementSelector + 'Scripts')
+                scripts = $data.filter(scriptsSelector)
             }
 
             $modal.append(scripts);
 
+            console.log($modal.find('form'));
 
             $modal.find('form').form2({
-                //todo add before submit hook
+                beforeSubmit: function ($form) {
+                    plugin.settings.beforeModalSubmit($form, $element);
+                },
+
                 afterSubmit: function ($form, $r) {
+
+                    if (plugin.settings.updateElement) {
+
+                        var value = $r[plugin.settings.value];
+                        var text = $r[plugin.settings.text];
+                        var $select = $element.closest(plugin.settings.parentSelector).find(plugin.settings.updateElement);
+                        if ($r.isNew == true) {
+                            $select.append('<option value="' + value + '">' + text + '</option>')
+                        }
+
+                        $select.val(value)
+                            .change();
+                    }
+
                     plugin.settings.afterModalSubmit($form, $r, $element);
                     $modal.modal('hide');
                 }

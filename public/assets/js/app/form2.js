@@ -8,6 +8,8 @@
     // here we go!
     $.form2 = function (element, options) {
         var defaults = {
+            beforeSubmit: function ($element) {
+            },
             afterSubmit: false
         };
         var plugin = this;
@@ -18,9 +20,9 @@
         plugin.init = function () {
             plugin.settings = $.extend({}, defaults, options);
 
-            plugin.form = $element;
-
-            plugin.form.submit(function (e) {
+            $element.submit(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
                 submitHandler();
                 return false;
             });
@@ -29,17 +31,19 @@
 
         var submitHandler = function () {
             $.ajax({
-                url: plugin.form.attr('action'),
-                method: plugin.form.attr('method'),
-                data: plugin.form.serialize(),
+                url: $element.attr('action'),
+                method: $element.attr('method'),
+                data: $element.serialize(),
                 dataType: 'json',
+                beforeSend: function ($element) {
+                    plugin.settings.beforeSubmit($element);
+                },
                 success: function (r, status, x) {
                     if (plugin.settings.afterSubmit) {
 
                         if (typeof r == 'string') {
                             r = $(r);
                         }
-
                         plugin.settings.afterSubmit($element, r);
                     } else {
                         if (r.redirect) {
@@ -49,7 +53,7 @@
                 },
                 error: function (r, status, z) {
                     //todo
-                    console.log(r, status, z);
+                    // console.log(r, status, z);
                     formErrors($element, r.responseJSON.errors);
                 }
             });

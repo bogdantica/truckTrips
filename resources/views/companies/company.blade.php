@@ -57,7 +57,7 @@
 
     </div>
 
-    <div class="panel-footer p-20">
+    <div class="panel-footer pl-20 pr-20">
         <button type="submit" class="btn btn-success pull-right">Salveaza</button>
     </div>
     {!! Form::close() !!}
