@@ -23,21 +23,17 @@ Route::get('/logout', [
 Route::get('/test', function () {
 
     $client = new \GuzzleHttp\Client([
-        'cookies' => true
+//        'cookies' => true
     ]);
 
-    $r = $client->request('GET', 'http://www.mfinante.ro/infocodfiscal.html', [
-        'headers' => [
-            'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
-        ],
-        'query' => [
-            'cod' => '15779899',
-            'pagina' => 'domenii',
-            'B1' => 'VIZUALIZARE'
-        ],
+    $r = $client->request('GET', 'https://legacy.openapi.ro/api/companies/15779899.json', [
         'allow_redirects' => true,
-        'debug' => true
+//        'debug' => true
     ]);
+
+    $resp = json_encode($r->getBody()->getContents());
+
+
 
 
     echo $r->getBody()->getContents();
@@ -45,12 +41,53 @@ Route::get('/test', function () {
 
 });
 
+
 Route::get('/login/{token}', [
     'as' => 'login.token',
     'uses' => 'Auth\LoginController@byToken'
 ]);
 
 Route::group(['middleware' => 'auth'], function () {
+
+
+    Route::get('/companies/external/', [
+        'as' => 'companies.external',
+        function (\Illuminate\Http\Request $request) {
+
+            $cif = $request->query('cif');
+
+
+            $cif = strtolower($cif);
+            $cif = str_replace('ro', '', $cif);
+
+            if (strlen($cif) != 8) {
+                return new \Illuminate\Http\JsonResponse((object)[]);
+            }
+
+            $url = 'https://legacy.openapi.ro/api/companies/>cif<.json';
+            $url = str_replace('>cif<', $cif, $url);
+
+            $client = new \GuzzleHttp\Client([
+//        'cookies' => true
+            ]);
+
+            try {
+                $r = $client->request('GET', $url, [
+                    'allow_redirects' => true,
+//        'debug' => true
+                ]);
+
+                $r = \GuzzleHttp\json_decode($r->getBody()->getContents());
+
+            } catch (\Exception $e) {
+                $r = (object)[];
+            }
+
+            return new \Illuminate\Http\JsonResponse($r);
+
+        }]);
+
+
 
     Route::get('trips', [
         'as' => 'trips',
@@ -73,6 +110,25 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 
 
+    Route::get('/companies', [
+        'as' => 'companies',
+        'uses' => 'CompaniesController@new'
+    ]);
+
+    Route::get('/companies/new', [
+        'as' => 'companies.new',
+        'uses' => 'CompaniesController@new'
+    ]);
+
+    Route::post('companies/new', [
+        'as' => 'companies.new',
+        'uses' => 'CompaniesController@storeNew'
+    ]);
+
+    Route::post('companies/new', [
+        'as' => 'companies.new',
+        'uses' => 'CompaniesController@storeNew'
+    ]);
 
 //    Route::get('/driver', [
 //            'as' => 'driver',

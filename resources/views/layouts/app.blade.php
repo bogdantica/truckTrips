@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ env('APP_NAME','Truck Trips') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
           type="text/css">
 
@@ -17,10 +16,11 @@
     <link href="/assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/colors.css" rel="stylesheet" type="text/css">
     <link href="/assets/js/plugins/pickers/datetimepicker/datetimepicker.min.css" rel="stylesheet" type="text/css">
-    <link href="/assets/css/helpers.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/app.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/app.css" rel="stylesheet" type="text/css">
 
     <script>
+        window.html = {};
         window.truck = {
             csrf: "{{ csrf_token() }}"
         }
@@ -74,11 +74,13 @@
 <script type="text/javascript" src="/assets/js/app/form2.js"></script>
 <script type="text/javascript" src="/assets/js/app/form2.js"></script>
 
-<script type="text/javascript" src="/assets/js/plugins/editors/wysihtml5/toolbar.js"></script>
+<script type="text/javascript" src="/assets/js/plugins/editors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/assets/js/plugins/editors/cookie/cookie.js"></script>
 <script type="text/javascript" src="/assets/js/plugins/forms/wizards/steps.min.js"></script>
 <script type="text/javascript" src="/assets/js/plugins/pickers/pickadate/picker.js"></script>
 <script type="text/javascript" src="/assets/js/plugins/pickers/pickadate/picker.time.js"></script>
+
+<script type="text/javascript" src="/assets/js/app/modalView.js"></script>
 
 
 <script type="text/javascript" src="/assets/js/core/app.js"></script>
@@ -86,3 +88,4 @@
 
 </body>
 </html>
+

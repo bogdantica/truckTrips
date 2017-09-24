@@ -11,17 +11,12 @@
         </li>
     @else
         <li>
-        <li>
-
-
             <a href="@if(isset($item['route'])) {{ route($item['route']) }} @elseif(isset($item['href'])) {{ $item['href'] }} @endif ">
                 @if(isset($item['icon']))
                     <i class="{{ $item['icon'] }}"></i>
                 @endif
                 {!! $item['title'] !!}
             </a>
-        </li>
-
         </li>
     @endif
 

@@ -7,7 +7,9 @@
 //    http://bootstrap-notify.remabledesigns.com/
     // here we go!
     $.form2 = function (element, options) {
-        var defaults = {};
+        var defaults = {
+            afterSubmit: false
+        };
         var plugin = this;
         plugin.settings = {};
 
@@ -32,8 +34,17 @@
                 data: plugin.form.serialize(),
                 dataType: 'json',
                 success: function (r, status, x) {
-                    if (r.redirect) {
-                        window.location = r.redirect;
+                    if (plugin.settings.afterSubmit) {
+
+                        if (typeof r == 'string') {
+                            r = $(r);
+                        }
+
+                        plugin.settings.afterSubmit($element, r);
+                    } else {
+                        if (r.redirect) {
+                            window.location = r.redirect;
+                        }
                     }
                 },
                 error: function (r, status, z) {

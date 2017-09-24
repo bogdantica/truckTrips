@@ -18,7 +18,16 @@ class CreateTripsPoints extends Migration
 
             $table->integer('trip_id')->index();
             $table->integer('point_type_id')->index();
+
             $table->integer('place_id')->nullable()->index();
+
+            $table->string('address_street')->index()->nullable();
+            $table->string('address_number')->index()->nullable();
+            $table->string('address_locality')->index()->nullable();
+            $table->string('address_county')->index()->nullable();
+            $table->string('address_country')->index()->nullable();
+
+            $table->string('google_place_id')->index()->nullable();
 
             $table->integer('cargo_type_id')->index()->nullable();
 

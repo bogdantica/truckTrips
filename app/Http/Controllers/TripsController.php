@@ -51,6 +51,8 @@ class TripsController extends Controller
 
         $trip = new Trip();
 
+        $trip = $trip->with('services')->first();
+
         return view('trips.trip', compact(
                 'company',
                 'companies',
