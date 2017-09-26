@@ -6,7 +6,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="form-group  ">
             <label>Cauta Adresa</label>
             {!! Form::text('', null,['class' => 'form-control  placeInput', 'data-placeholder' => 'Cauta Adresa']) !!}
