@@ -1,3 +1,4 @@
+<div class="placeContainer">
 <div class="row {{ ($remove ?? false) ? '' : 'hidden' }}">
     <div class="col-xs-12">
         <button class="btn btn-danger pull-right" data-target-id="{{ $point->id ?? 'currentIndex' }}">Sterge
@@ -8,7 +9,7 @@
     <div class="col-md-4">
         <div class="form-group  ">
             <label>Cauta Adresa</label>
-            {!! Form::select(null,[], null,['class' => 'form-control  placeInput', 'data-placeholder' => 'Cauta Adresa']) !!}
+            {!! Form::text('', null,['class' => 'form-control  placeInput', 'data-placeholder' => 'Cauta Adresa']) !!}
             {{--<div class="form-control-feedback">--}}
             {{--<i class="icon-airplane3"></i>--}}
             {{--</div>--}}
@@ -86,29 +87,28 @@
 
 </div>
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group has-feedback has-feedback-left ">
-            <label>Greutate Totala - KG</label>
-            {!! Form::text($inputPrefix . '[cargo_weight]',$point->cargo_weight ?? null,['class' => 'form-control  ', 'placeholder' => 'Greutate KG']) !!}
-            <div class="form-control-feedback">
-                <i class="icon-balance"></i>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group has-feedback has-feedback-left ">
+                <label>Greutate Totala - KG</label>
+                {!! Form::text($inputPrefix . '[cargo_weight]',$point->cargo_weight ?? null,['class' => 'form-control  ', 'placeholder' => 'Greutate KG']) !!}
+                <div class="form-control-feedback">
+                    <i class="icon-balance"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group has-feedback has-feedback-left ">
+                <label>Volum Total - M<sup>3</sup></label>
+                {!! Form::text($inputPrefix . '[cargo_volume]',$point->cargo_volume ?? null,['class' => 'form-control ', 'placeholder' => 'Volumn M3']) !!}
+                <div class="form-control-feedback">
+                    <i class=" icon-rulers"></i>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="form-group has-feedback has-feedback-left ">
-            <label>Volum Total - M<sup>3</sup></label>
-            {!! Form::text($inputPrefix . '[cargo_volume]',$point->cargo_volume ?? null,['class' => 'form-control ', 'placeholder' => 'Volumn M3']) !!}
-            <div class="form-control-feedback">
-                <i class=" icon-rulers"></i>
-            </div>
-        </div>
+    <div class="form-group ">
+        <label>Detalii</label>
+        {{ Form::textarea($inputPrefix . '[details]',$point->details ?? null,['class' => 'form-control ','rows' => 4]) }}
     </div>
 </div>
-
-<div class="form-group ">
-    <label>Detalii</label>
-    {{ Form::textarea($inputPrefix . '[details]',$point->details ?? null,['class' => 'form-control ','rows' => 4]) }}
-</div>
-    

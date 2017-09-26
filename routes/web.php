@@ -109,6 +109,25 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'TripsController@edit'
     ]);
 
+    Route::get('/drivers/new', [
+        'as' => 'drivers.new',
+        'uses' => 'DriversController@new'
+    ]);
+
+    Route::post('/drivers/new', [
+        'as' => 'drivers.new',
+        'uses' => 'DriversController@storeNew'
+    ]);
+
+    Route::get('/vehicles/new', [
+        'as' => 'vehicles.new',
+        'uses' => 'VehiclesController@new'
+    ]);
+
+    Route::post('/vehicles/new', [
+        'as' => 'drivers.new',
+        'uses' => 'VehiclesController@storeNew'
+    ]);
 
     Route::get('/companies', [
         'as' => 'companies',

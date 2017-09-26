@@ -2,27 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Trip;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DriversController extends Controller
 {
-    public function dashboard()
+
+    public function new()
     {
-        $driver = \Auth::user();
+        $user = new User();
+        return view('driver.driver', compact('user'));
+    }
 
-        $trip = Trip::where('driver_user_id', $driver->id)
-            ->orderBy('created_at', 'DESC')
-            ->with('startPoint.place')
-            ->with('endPoint.place')
-            ->with('truck')
-            ->with('sender')
-            ->with('receiver')
-            ->first();
+    public function storeNew(Request $req)
+    {
+        $this->validate($req, [
+            'name' => 'required',
+            'email' => 'email|nullable',
+            'phone' => 'numeric|nullable'
+        ]);
 
-        if ($trip && $trip->endPoint->departed_at) {
-            $trip = null;
+        $user = User::create($req->all(['name', 'email', 'phone']));
+        $user->isNew = true;
+        if ($req->ajax()) {
+            return new JsonResponse($user);
         }
 
-        return view('driver.dashboard', compact('trip'));
+        return redirect('users');
     }
+
+
+//    public function dashboard()
+//    {
+//        $driver = \Auth::user();
+//
+//        $trip = Trip::where('driver_user_id', $driver->id)
+//            ->orderBy('created_at', 'DESC')
+//            ->with('startPoint.place')
+//            ->with('endPoint.place')
+//            ->with('truck')
+//            ->with('sender')
+//            ->with('receiver')
+//            ->first();
+//
+//        if ($trip && $trip->endPoint->departed_at) {
+//            $trip = null;
+//        }
+//
+//        return view('driver.dashboard', compact('trip'));
+//    }
 }

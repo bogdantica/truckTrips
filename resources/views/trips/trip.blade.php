@@ -46,22 +46,22 @@
             <div class="row">
 
                 <div class="col-md-6">
-                    <div class="form-group input-group">
+                    <div class="form-group input-group vehicleContainer">
                         <label>Vehicule:</label>
                         {{ Form::select('vehicles',$vehicles,null,['class' => 'form-control select ','multiple']) }}
                         <div class="input-group-btn">
-                            <button type="button" class="btn bg-success">
+                            <button type="button" class="btn bg-success newVehicleAction">
                                 Vehicul Nou
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group input-group">
+                    <div class="form-group input-group driverContainer">
                         <label>Sofer:</label>
                         {{ Form::select('driver_user_id',$drivers,$trip->driver_user_id ?? null,['class' => 'select form-control']) }}
                         <div class="input-group-btn">
-                            <button type="button" class="btn bg-success">
+                            <button type="button" class="btn bg-success newDriverAction">
                                 Sofer Nou
                             </button>
                         </div>
@@ -115,6 +115,7 @@
 </div>
 
 {!! Form::close() !!}
+
 @endpush
 
 @push('scripts')
@@ -127,6 +128,18 @@
             elementSelector: '.newCompanyContainer',
             url: '{{ route('companies.new') }}'
         });
+
+        $('.driverContainer .newDriverAction').modalView({
+            elementSelector: '.newDriverContainer',
+            url: '{{ route('drivers.new') }}'
+        });
+        $('.vehicleContainer .newVehicleAction').modalView({
+            text: 'registration',
+            elementSelector: '.newVehicleContainer',
+            url: '{{ route('vehicles.new') }}'
+        });
+
+        $('.placeInput').gooAutComp()
 
     });
 
@@ -177,25 +190,25 @@
 
 
 
-    $('.placeInput').select2({
-        ajax: {
-            url: "{{ route('places') }}",
-            dataType: 'json',
-            delay: 100,
-            data: function (params) {
-                return {
-                    place: params.term
-                };
-            },
-            processResults: function (data, params) {
-                return {
-                    results: data.items
-                };
-            },
-            cache: true
-        },
-        minimumInputLength: 2
-    });
+    {{--.select2({--}}
+    {{--ajax: {--}}
+    {{--url: "{{ route('places') }}",--}}
+    {{--dataType: 'json',--}}
+    {{--delay: 100,--}}
+    {{--data: function (params) {--}}
+    {{--return {--}}
+    {{--place: params.term--}}
+    {{--};--}}
+    {{--},--}}
+    {{--processResults: function (data, params) {--}}
+    {{--return {--}}
+    {{--results: data.items--}}
+    {{--};--}}
+    {{--},--}}
+    {{--cache: true--}}
+    {{--},--}}
+    {{--minimumInputLength: 2--}}
+    {{--});--}}
 
     //    (function () {
     //        if (navigator.geolocation) {

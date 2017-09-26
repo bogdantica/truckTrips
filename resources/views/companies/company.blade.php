@@ -15,7 +15,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-feedback has-feedback-left ">
                         <label>CIF</label>
-                        {{ Form::text('cif',$company->cif?? null,['class' => 'form-control companyCif']) }}
+                        {{ Form::text('cif',$company->cif?? null,['class' => 'form-control companyCif','placeholder' => 'Cod Fiscal']) }}
                         <div class="form-control-feedback">
                             <i class="glyphicon glyphicon-search"></i>
                         </div>
@@ -24,7 +24,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-feedback has-feedback-left ">
                         <label>Denumire</label>
-                        {{ Form::text('name',$company->name ?? null,['class' => 'form-control companyName']) }}
+                        {{ Form::text('name',$company->name ?? null,['class' => 'form-control companyName','placeholder' => 'Denumire']) }}
                         <div class="form-control-feedback">
                             <i class="glyphicon glyphicon-tag"></i>
                         </div>
@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-feedback has-feedback-left ">
                         <label>Nr Registrul Comertului</label>
-                        {{ Form::text('reg_id',$company->reg_id?? null,['class' => 'form-control companyRegId']) }}
+                        {{ Form::text('reg_id',$company->reg_id?? null,['class' => 'form-control companyRegId','placeholder' => 'Numar Registrul Comertului']) }}
                         <div class="form-control-feedback">
                             <i class="icon-hash"></i>
                         </div>
@@ -44,7 +44,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-feedback has-feedback-left ">
                         <label>Address</label>
-                        {{ Form::text('address',$company->address ?? null,['class' => 'form-control companyAddress']) }}
+                        {{ Form::text('address',$company->address ?? null,['class' => 'form-control companyAddress','placeholder' => 'Adresa']) }}
                         <div class="form-control-feedback">
                             <i class="icon-location4"></i>
                         </div>

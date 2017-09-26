@@ -70,6 +70,8 @@
                 scripts = $data.filter(scriptsSelector)
             }
 
+            // $modal.find('.panel-heading');
+
             $modal.append(scripts);
 
             console.log($modal.find('form'));
@@ -86,6 +88,8 @@
                         var value = $r[plugin.settings.value];
                         var text = $r[plugin.settings.text];
                         var $select = $element.closest(plugin.settings.parentSelector).find(plugin.settings.updateElement);
+
+                        console.log($select);
                         if ($r.isNew == true) {
                             $select.append('<option value="' + value + '">' + text + '</option>')
                         }
