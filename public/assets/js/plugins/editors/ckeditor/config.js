@@ -5,67 +5,60 @@
 
 CKEDITOR.editorConfig = function( config ) {
 
-	// Define changes to default configuration here.
-	// For complete reference see:
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
+    // Define changes to default configuration here.
+    // For complete reference see:
+    // http://docs.ckeditor.com/#!/api/CKEDITOR.config
+
+    config.language = 'ro';
+
+    // Toolbar
+    // ------------------------------
+
+    // The toolbar groups arrangement, optimized for two toolbar rows.
+    config.toolbarGroups = [
+        {name: 'editing', groups: ['find', 'selection']},
+        {name: 'document', groups: ['document', 'doctools']},
+        {name: 'insert'},
+        {name: 'clipboard', groups: ['clipboard', 'undo']},
+        {name: 'links'},
+        {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi']},
+        {name: 'styles'},
+        {name: 'colors'},
+
+        // {name: 'forms'},
+        // {name: 'tools'},
+        // {name: 'others'},
+        // {name: 'about'},
+        // {name: 'pbckcode'}
+    ];
 
 
-	// Setup RTL
-	// ------------------------------
+    // Extra config
+    // ------------------------------
 
-    config.contentsLangDirection = 'rtl';
-    config.dialog_buttonsOrder = 'rtl';
-    config.language = 'ar';
-    contentsLanguage:'ar';
+    // Remove some buttons provided by the standard plugins, which are
+    // not needed in the Standard(s) toolbar.
+    config.removeButtons = 'Underline,Subscript,Superscript';
 
+    // Set the most common block elements.
+    config.format_tags = 'p;h1;h2;h3;pre';
 
-	// Toolbar
-	// ------------------------------
+    // Simplify the dialog windows.
+    config.removeDialogTabs = 'image,image:advanced;link:advanced';
 
-	// The toolbar groups arrangement, optimized for two toolbar rows.
-	config.toolbarGroups = [
-		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-		{ name: 'links' },
-		{ name: 'insert' },
-		{ name: 'forms' },
-		{ name: 'tools' },
-		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: 'others' },
-		'/',
-		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-		{ name: 'styles' },
-		{ name: 'colors' },
-		{ name: 'about' },
-		{ name: 'pbckcode' }
-	];
+    // Allow content rules
+    config.allowedContent = true;
 
 
-	// Extra config
-	// ------------------------------
+    // Extra plugins
+    // ------------------------------
 
-	// Remove some buttons provided by the standard plugins, which are
-	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript';
+    // CKEDITOR PLUGINS LOADING
+    config.extraPlugins = 'pbckcode,justify,font,colorbutton';
+    // config.removePlugins = 'forms,spelling';
 
-	// Set the most common block elements.
-	config.format_tags = 'p;h1;h2;h3;pre';
-
-	// Simplify the dialog windows.
-	config.removeDialogTabs = 'image:advanced;link:advanced';
-
-	// Allow content rules
-	config.allowedContent = true;
-
-
-	// Extra plugins
-	// ------------------------------
-
-	// CKEDITOR PLUGINS LOADING
-    config.extraPlugins = 'pbckcode'; // add other plugins here (comma separated)
-
-	// PBCKCODE CUSTOMIZATION
+    // PBCKCODE CUSTOMIZATION
     config.pbckcode = {
         // An optional class to your pre tag.
         cls : '',
