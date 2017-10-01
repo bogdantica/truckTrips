@@ -116,9 +116,13 @@ class Point extends BaseModel
     protected $dates = [
         'arrived_at',
         'departed_at',
-        'schedule_time',
+//        'schedule_time',
         'schedule_date'
     ];
+
+//    protected $dateFormat = [
+////        'schedule_time' => 'H:i'
+//    ];
 
     /**
      * @return BelongsTo

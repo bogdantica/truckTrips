@@ -22,7 +22,7 @@ Route::get('/logout', [
 
 Route::get('/test', function () {
 
-    $trip = \App\Models\Trip::find(2);
+    $trip = \App\Models\Trip::find(4);
 
     $trip->load([
         'driver',

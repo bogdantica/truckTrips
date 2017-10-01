@@ -188,8 +188,8 @@
     });
 
     $('.inputTime').pickatime({
-        format: 'H:i',
-        formatSubmit: 'H:i',
+        format: 'HH:i',
+        formatSubmit: 'HH:i',
         clear: 'Sterge'
     });
 
