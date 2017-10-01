@@ -94,6 +94,20 @@ class Point extends BaseModel
         'departed_at',
         'latitude',
         'longitude',
+
+        'address_street',
+        'address_number',
+        'address_locality',
+        'address_county',
+        'address_country',
+
+        'cargo_type_id',
+        'cargo_weight',
+        'cargo_volume',
+        'details',
+        'schedule_date',
+        'schedule_time',
+        'details'
     ];
 
     /**

@@ -66,12 +66,20 @@
         };
 
         plugin.updatePlace = function () {
-            plugin.clearValues();
 
+            plugin.clearValues();
             var place = gac.getPlace();
+            var bucharestSector = false;
+
             for (var x in place.address_components) {
                 var comp = place.address_components[x];
                 var type = comp.types;
+
+                if (type.includes('sublocality_level_1') === true &&
+                    type.includes('political') === true && type.length === 3) {
+                    bucharestSector = comp.long_name;
+                }
+
                 switch (true) {
                     case type.includes('street_number') === true && type.length === 1:
                         fillNumber(comp.long_name);
@@ -92,11 +100,11 @@
                         type.includes('administrative_area_level_1') === true &&
                         type.includes('political') === true && type.length === 2
                     )
-                    ||
-                    (
-                        type.includes('sublocality_level_1') === true &&
-                        type.includes('political') === true && type.length === 2
-                    )
+                        // ||
+                        // (
+                        //     type.includes('sublocality_level_1') === true &&
+                        //     type.includes('political') === true && type.length === 3
+                        // )
                     :
                         fillCounty(comp.long_name);
                         break;
@@ -106,6 +114,10 @@
                         fillCountry(comp.long_name);
                         break;
                 }
+            }
+
+            if (bucharestSector !== false) {
+                fillCounty(bucharestSector);
             }
         };
 

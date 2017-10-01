@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TripRequest;
 use App\Models\Company;
-use App\Models\EventType;
 use App\Models\PayMethod;
-use App\Models\Place;
 use App\Models\PointType;
 use App\Models\Trip;
 use App\Models\Truck;
@@ -51,7 +49,7 @@ class TripsController extends Controller
 
         $trip = new Trip();
 
-        $trip = $trip->with('services')->first();
+//        $trip = $trip->with('services')->first();
 
         return view('trips.trip', compact(
                 'company',
@@ -65,63 +63,110 @@ class TripsController extends Controller
         );
     }
 
-    public function storeNew(TripRequest $request)
+    public function storeNew(TripRequest $req)
     {
-
-        dd($request->all());
-
-
-        $sender = Company::parseRequest($request->sender_company_id);
-
-        $receiver = Company::parseRequest($request->receiver_company_id);
-
-        $truck = Truck::parseRequest($request->truck_id);
-
-        $newTripData = [
-            'sender_company_id' => $sender->id,
-            'receiver_company_id' => $receiver->id,
-            'truck_id' => $truck->id,
-            'driver_user_id' => $request->driver_user_id,
-            'pay_distance' => $request->pay_distance,
-            'real_distance' => $request->real_distance,
-            'load_weight' => $request->load_weight,
-            'load_volume' => $request->load_volume,
-            'event_type_id' => EventType::TRIP,
-        ];
-
-        \DB::transaction(function () use ($newTripData, $request) {
+//        dd($req->all());
 
 
-            $newTrip = Trip::create($newTripData);
+        \DB::transaction(function () use ($req) {
 
-            $start = (object)$request->start_point;
 
-            $startId = Place::parseRequest($start->place_id)->id;
-
-            $newTrip->startPoint()->create([
-                'point_type_id' => PointType::START,
-                'place_id' => $startId,
-                'current_kilometers' => $start->current_kilometers,
-                'description' => $start->description ?? null,
-                'departed_at' => Carbon::createFromFormat("d/m/Y H:i", $start->departed_at),//todo parse this with carbon,
-                'latitude' => $start->latitude ?? null,
-                'longitude' => $start->longitude ?? null,
+            $req->merge([
+                'agreement_date' => Carbon::createFromFormat('d/m/Y', $req->agreement_date)
             ]);
 
-            $end = (object)$request->end_point;
+            $trip = Trip::create($req->only([
+                'sender_company_id',
+                'receiver_company_id',
+                'driver_user_id',
+                'agreement',
+                'agreement_date',
+            ]));
 
-            $endId = Place::parseRequest($end->place_id)->id;
 
-            $newTrip->endPoint()->create([
+            $point = (object)$req->startPoint;
+            $add = (object)$point->address;
+
+            $date = empty($point->schedule_date) ? null : Carbon::createFromFormat('d/m/Y', $point->schedule_date);
+            $time = empty($point->schedule_time) ? null : Carbon::createFromFormat('H:i', $point->schedule_time);
+
+
+            $trip->startPoint()->create(
+                [
+                    'point_type_id' => PointType::START,
+                    'address_street' => $add->street ?? null,
+                    'address_number' => $add->number ?? null,
+                    'address_locality' => $add->locality ?? null,
+                    'address_county' => $add->county ?? null,
+                    'address_country' => $add->country ?? null,
+                    'schedule_date' => $date,
+                    'schedule_time' => $time,
+                    'cargo_weight' => $point->cargo_weight ?? null,
+                    'cargo_volume' => $point->cargo_volume ?? null,
+                    'details' => $point->details ?? null,
+                ]);
+
+            $point = (object)$req->endPoint;
+            $add = (object)$point->address;
+
+
+            $date = empty($point->schedule_date) ? null : Carbon::createFromFormat('d/m/Y', $point->schedule_date);
+            $time = empty($point->schedule_time) ? null : Carbon::createFromFormat('H:i', $point->schedule_time);
+
+            $trip->endPoint()->create([
                 'point_type_id' => PointType::END,
-                'place_id' => $endId,
-                'description' => $end->description ?? null,
-                'current_kilometers' => $end->current_kilometers ?? null,
-                'departed_at' => isset($end->departed_at) ? Carbon::createFromFormat("d/m/Y H:i", $end->departed_at) : null,//todo parse this with carbon,
-                'latitude' => $end->latitude ?? null,
-                'longitude' => $end->longitude ?? null,
+                'address_street' => $add->street ?? null,
+                'address_number' => $add->number ?? null,
+                'address_locality' => $add->locality ?? null,
+                'address_county' => $add->county ?? null,
+                'address_country' => $add->country ?? null,
+                'schedule_date' => $date,
+                'schedule_time' => $time,
+                'cargo_weight' => $point->cargo_weight ?? null,
+                'cargo_volume' => $point->cargo_volume ?? null,
+                'details' => $point->details ?? null,
             ]);
 
+            foreach ($req->point['new'] ?? [] as $point) {
+
+                $point = (object)$point;
+                $add = (object)$point->address;
+                $date = empty($point->schedule_date) ? null : Carbon::createFromFormat('d/m/Y', $point->schedule_date);
+                $time = empty($point->schedule_time) ? null : Carbon::createFromFormat('H:i', $point->schedule_time);
+
+                $trip->points()->create([
+                    'point_type_id' => PointType::INTER,
+                    'address_street' => $add->street ?? null,
+                    'address_number' => $add->number ?? null,
+                    'address_locality' => $add->locality ?? null,
+                    'address_county' => $add->county ?? null,
+                    'address_country' => $add->country ?? null,
+                    'schedule_date' => $date,
+                    'schedule_time' => $time,
+                    'cargo_weight' => $point->cargo_weight ?? null,
+                    'cargo_volume' => $point->cargo_volume ?? null,
+                    'details' => $point->details ?? null,
+                ]);
+            }
+
+            $totalCost = 0;
+            foreach ($req->services['new'] as $service) {
+                $serv = (object)$service;
+
+                $trip->services()->create([
+                    'name' => $serv->name,
+                    'quantity' => $serv->quantity,
+                    'price' => $serv->price,
+                    'total' => $serv->quantity * $serv->price,
+                ]);
+                $totalCost += $serv->quantity * $serv->price;
+            }
+
+
+            $trip->total_price = $totalCost;
+            $trip->save();
+
+//            dd($trip->toArray());
 
         });
 
@@ -130,6 +175,12 @@ class TripsController extends Controller
         ]);
 
     }
+
+    public function edit(Request $req, Trip $trip)
+    {
+        dd($trip->toArray(), $req->all());
+    }
+
 
     public function end(Trip $trip, Request $request)
     {

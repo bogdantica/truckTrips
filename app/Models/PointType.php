@@ -30,8 +30,7 @@ class PointType extends BaseModel
     protected $table = 'trips_points_types';
 
     const START = 10;
-    const LOAD = 20;
-    const UNLOAD = 30;
+    const INTER = 20;
     const END = 40;
 
     protected $fillable = [

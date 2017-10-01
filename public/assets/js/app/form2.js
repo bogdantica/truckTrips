@@ -10,8 +10,11 @@
         var defaults = {
             beforeSubmit: function ($element) {
             },
-            afterSubmit: false
+            afterSubmit: false,
+            alterData: false,
+            ignoreInputs: []
         };
+
         var plugin = this;
         plugin.settings = {};
 
@@ -29,11 +32,40 @@
 
         };
 
+        var getData = function () {
+            var formData = $element.serializeArray();
+
+            if (plugin.settings.alterData !== false) {
+                return plugin.settings.alterData.apply($element, [formData]);
+            }
+
+            return ignoreInputs(formData);
+
+        };
+
+        var ignoreInputs = function (data) {
+            if (!plugin.settings.ignoreInputs.length) {
+                return data;
+            }
+            var newData = [];
+
+            for (var i in  data) {
+                var input = data[i];
+                for (var j in plugin.settings.ignoreInputs) {
+                    var ignoreName = plugin.settings.ignoreInputs[j];
+                    if (input.name.indexOf(ignoreName) === -1) {
+                        newData.push(input);
+                    }
+                }
+            }
+            return newData;
+        };
+
         var submitHandler = function () {
             $.ajax({
                 url: $element.attr('action'),
                 method: $element.attr('method'),
-                data: $element.serialize(),
+                data: getData(),
                 dataType: 'json',
                 beforeSend: function ($element) {
                     plugin.settings.beforeSubmit($element);
@@ -59,9 +91,10 @@
             });
         };
 
+
         plugin.init();
 
-    }
+    };
 
     // add the plugin to the jQuery.fn object
     $.fn.form2 = function (options) {
@@ -69,7 +102,7 @@
             // if plugin has not already been attached to the element
             if (undefined == $(this).data('form2')) {
                 var plugin = new $.form2(this, options);
-                $(this).data('form2', plugin);
+                $(this).data('form2', plugin).addClass('form2');
             }
         });
     }

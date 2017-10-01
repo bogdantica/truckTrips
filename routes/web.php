@@ -22,6 +22,21 @@ Route::get('/logout', [
 
 Route::get('/test', function () {
 
+    $trip = \App\Models\Trip::find(20);
+
+    $trip->load([
+        'driver',
+        'sender',
+        'receiver',
+        'startPoint',
+        'endPoint',
+        'points',
+        'services',
+
+    ]);
+
+    dd($trip->toArray());
+
     $client = new \GuzzleHttp\Client([
 //        'cookies' => true
     ]);
@@ -104,7 +119,7 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'TripsController@storeNew'
     ]);
 
-    Route::put('/trips/edit', [
+    Route::put('/trips/edit/{trip}', [
         'as' => 'trips.edit',
         'uses' => 'TripsController@edit'
     ]);

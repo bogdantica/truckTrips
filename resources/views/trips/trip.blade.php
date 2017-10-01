@@ -2,18 +2,13 @@
 
 @push('content')
 
-
-{{--{{ dd($trip->toArray()) }}--}}
-
 <div class="panel panel-white">
 
     <div class="panel-heading">
         <h6 class="panel-title">Cursa Noua</h6>
     </div>
 
-    {{--<form class="steps-basic" action="#">--}}
-
-        {!! Form::open(['url' => $trip->id ? route('trips.edit') : route('trips.new'), 'method' =>$trip->id ? 'PUT' : 'POST','class' => 'steps-basic' ]) !!}
+    {!! Form::open(['url' => $trip->id ? route('trips.edit',['trip' => $trip->id]) : route('trips.new'), 'method' => $trip->id ? 'PUT' : 'POST','class' => 'steps-basic' ]) !!}
 
         <h6>Date cursa</h6>
         <fieldset>
@@ -48,7 +43,7 @@
                 <div class="col-md-6">
                     <div class="form-group input-group vehicleContainer">
                         <label>Vehicule:</label>
-                        {{ Form::select('vehicles',$vehicles,null,['class' => 'form-control select ','multiple']) }}
+                        {{ Form::select('vehicles[]',$vehicles,null,['class' => 'form-control select ','multiple']) }}
                         <div class="input-group-btn">
                             <button type="button" class="btn bg-success newVehicleAction">
                                 Vehicul Nou
@@ -72,42 +67,58 @@
 
     <h6>Incarcare</h6>
     <fieldset>
-        @include('trips.elements.point',['inputPrefix' => 'startPoint','point' => $trip->startPoint])
+        <div class="loadPlace">
+            @include('trips.elements.point',['inputPrefix' => 'startPoint','point' => $trip->startPoint])
+        </div>
     </fieldset>
-        <h6>Puncte Aditionale</h6>
-        <fieldset>
+
+    <h6>Puncte Aditionale</h6>
+    <fieldset>
+        <div class="placesContainer">
+
             <div class="newPointModel">
+                <div class="row">
+                    <div class="col-xs-12 pb-5">
+                        <button type="button" class="btn btn-warning pull-right newPlaceAction" data-service-index="0">
+                            <i class="icon-calculator3 position-left"></i>
+                            Adauga
+                        </button>
+                    </div>
+                </div>
                 @include('trips.elements.point',['inputPrefix' => 'point[new][currentIndex]','point' => null])
             </div>
-
+            <div class="tripPlacesContainer">
             @foreach($trip->points as $point)
 
                 @include('trips.elements.point',['inputPrefix' => 'point[old]['.$point->id.']','point' => $point,'remove' => true])
 
             @endforeach
-
-        </fieldset>
+            </div>
+        </div>
+    </fieldset>
 
         <h6>Descarcare</h6>
         <fieldset>
-
-            @include('trips.elements.point',['inputPrefix' => 'endPoint','point' => $trip->endPoint])
-
+            <div class="unLoadPlace">
+                @include('trips.elements.point',['inputPrefix' => 'endPoint','point' => $trip->endPoint])
+            </div>
         </fieldset>
 
         <h6>Tarife</h6>
         <fieldset>
-            @include('trips.elements.services',['services' => $trip->services])
+            <div class="servicesContainer">
+                @include('trips.elements.services',['services' => $trip->services])
+            </div>
         </fieldset>
 
         <h6>Contract Comanda</h6>
 
-        <fieldset>
+    <fieldset class="pb-10">
 
             {{--<div id="agreement" contenteditable="true">--}}
             {{--{!! $trip->agreement !!}--}}
             {{--</div>--}}
-            {{ Form::textarea('agreement',$trip->agreement ?? null,['class' => 'tripAgreementBody form-control','rows' => 5,'id' => 'agreement']) }}
+        {{ Form::textarea('agreement',$trip->agreement ?? null,['class' => 'agreementBody form-control','rows' => 5,'id' => 'agreement']) }}
         </fieldset>
 
     </form>
@@ -122,28 +133,7 @@
 
 <script>
 
-    $(document).ready(function () {
-
-        $('.companyContainer .newCompanyAction').modalView({
-            elementSelector: '.newCompanyContainer',
-            url: '{{ route('companies.new') }}'
-        });
-
-        $('.driverContainer .newDriverAction').modalView({
-            elementSelector: '.newDriverContainer',
-            url: '{{ route('drivers.new') }}'
-        });
-        $('.vehicleContainer .newVehicleAction').modalView({
-            text: 'registration',
-            elementSelector: '.newVehicleContainer',
-            url: '{{ route('vehicles.new') }}'
-        });
-
-        $('.placeInput').gooAutComp()
-
-    });
-
-    $(".steps-basic").steps({
+    $('form').steps({
         headerTag: "h6",
         bodyTag: "fieldset",
         saveState: true,
@@ -159,25 +149,40 @@
             var $this = $(this);
             $this.submit();
         }
+    }).form2({
+        ignoreInputs: [
+            '[currentIndex]'
+        ]
     });
+
+
+    $('.companyContainer .newCompanyAction').modalView({
+        elementSelector: '.newCompanyContainer',
+        url: '{{ route('companies.new') }}'
+    });
+
+    $('.driverContainer .newDriverAction').modalView({
+        elementSelector: '.newDriverContainer',
+        url: '{{ route('drivers.new') }}'
+    });
+    $('.vehicleContainer .newVehicleAction').modalView({
+        text: 'registration',
+        elementSelector: '.newVehicleContainer',
+        url: '{{ route('vehicles.new') }}'
+    });
+
+    $('.placeInput').gooAutComp();
 
 
     $('.companyInput').select2({
         tags: {{--<div class="text-right">--}}true
     });
 
-    //    $('.truckInput').select2({
-    //        tags: true
-    //    });
-
-    //    $('.driverInput').select2();
-
     $("select:not([class^=\"select2\"])").select2();
 
     $('.inputDate').daterangepicker({
         singleDatePicker: true,
         locale: {
-
             format: 'DD/MM/YYYY'
         }
     });
@@ -188,39 +193,14 @@
         clear: 'Sterge'
     });
 
+    $('.newService,.oldService').services();
 
 
-    {{--.select2({--}}
-    {{--ajax: {--}}
-    {{--url: "{{ route('places') }}",--}}
-    {{--dataType: 'json',--}}
-    {{--delay: 100,--}}
-    {{--data: function (params) {--}}
-    {{--return {--}}
-    {{--place: params.term--}}
-    {{--};--}}
-    {{--},--}}
-    {{--processResults: function (data, params) {--}}
-    {{--return {--}}
-    {{--results: data.items--}}
-    {{--};--}}
-    {{--},--}}
-    {{--cache: true--}}
-    {{--},--}}
-    {{--minimumInputLength: 2--}}
-    {{--});--}}
-
-    //    (function () {
-    //        if (navigator.geolocation) {
-    //            navigator.geolocation.getCurrentPosition(function (params) {
-    //                $('.startLatitude').val(params.coords.latitude);
-    //                $('.startLongitude').val(params.coords.longitude);
-    //            });
-    //        }
-    //    })();
-
-
-    //    $('form').form2();
+    CKEDITOR.replace($('.agreementBody')[0], {
+//        height: '400px',
+//        extraPlugins: 'forms'
+    });
+    $('.newPointModel').places();
 
 </script>
 

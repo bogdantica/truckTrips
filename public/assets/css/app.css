@@ -75,10 +75,18 @@
     vertical-align: bottom;
 }
 
+.form-control ~ .help-block ~ .input-group-btn {
+    vertical-align: top;
+}
+
 .has-feedback label ~ .form-control-feedback {
     top: 27px;
 }
 
 .modal-content .panel {
     margin: 0;
+}
+
+.loadPlace legend, .unLoadPlace legend,.tripPlacesContainer legend:last-of-type {
+    display: none;
 }
