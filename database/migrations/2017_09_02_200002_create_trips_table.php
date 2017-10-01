@@ -17,8 +17,8 @@ class CreateTripsTable extends Migration
 
             $table->increments('id');
 
-            $table->integer('sender_company_id')->nullable();
-            $table->integer('receiver_company_id')->nullable();
+            $table->integer('transporter_company_id')->nullable();
+            $table->integer('beneficiary_company_id')->nullable();
 
             $table->integer('driver_user_id')->unsigned()->index()->nullable();
 

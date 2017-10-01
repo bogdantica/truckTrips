@@ -26,7 +26,7 @@ class TripRequest extends FormRequest
 
         return [
             'agreement_date' => 'required|date_format:d/m/Y',
-            'receiver_company_id' => 'required|exists:companies,id',
+            'beneficiary_company_id' => 'required|exists:companies,id',
             'vehicles' => 'required|array',
             'vehicles.*' => 'required|exists:vehicles,id',
             'driver_user_id' => 'required|exists:users,id',

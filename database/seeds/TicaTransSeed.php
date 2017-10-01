@@ -44,8 +44,8 @@ class TicaTransSeed extends Seeder
         \App\Models\Company::first()->vehicles()->attach(\App\Models\Vehicle::get()->last());
 
         $trip = \App\Models\Trip::create([
-            'sender_company_id' => $company1->id,
-            'receiver_company_id' => $company2->id,
+            'transporter_company_id' => $company1->id,
+            'beneficiary_company_id' => $company2->id,
             'driver_user_id' => $user->id,
             'distance' => 10,
             'total_price' => 10,

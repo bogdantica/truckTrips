@@ -22,15 +22,15 @@ Route::get('/logout', [
 
 Route::get('/test', function () {
 
-    $trip = \App\Models\Trip::find(20);
+    $trip = \App\Models\Trip::find(2);
 
     $trip->load([
         'driver',
-        'sender',
-        'receiver',
+        'transporter',
+        'beneficiary',
         'startPoint',
-        'endPoint',
         'points',
+        'endPoint',
         'services',
 
     ]);

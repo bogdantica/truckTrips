@@ -29,16 +29,27 @@ class LookUpSeeder extends Seeder
             'point_type_id' => \App\Models\PointType::START,
         ]);
 
+//        \App\Models\PointType::create([
+//            'name' => 'intermediate',
+//            'display' => 'Internediar - Descarcare',
+//            'point_type_id' => \App\Models\PointType::UNLOAD,
+//        ]);
+//
+//        \App\Models\PointType::create([
+//            'name' => 'intermediate',
+//            'display' => 'Intermediar - Incarcare',
+//            'point_type_id' => \App\Models\PointType::LOAD,
+//        ]);
+//        \App\Models\PointType::create([
+//            'name' => 'intermediate',
+//            'display' => 'Internediar - Descarcare',
+//            'point_type_id' => \App\Models\PointType::UNLOAD,
+//        ]);
+//
         \App\Models\PointType::create([
             'name' => 'intermediate',
-            'display' => 'Internediar - Descarcare',
-            'point_type_id' => \App\Models\PointType::UNLOAD,
-        ]);
-
-        \App\Models\PointType::create([
-            'name' => 'intermediate',
-            'display' => 'Intermediar - Incarcare',
-            'point_type_id' => \App\Models\PointType::LOAD,
+            'display' => 'Intermediar',
+            'point_type_id' => \App\Models\PointType::INTER,
         ]);
 
         \App\Models\PointType::create([

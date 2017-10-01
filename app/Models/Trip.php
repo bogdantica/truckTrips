@@ -16,8 +16,8 @@ class Trip extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'sender_company_id',
-        'receiver_company_id',
+        'transporter_company_id',
+        'beneficiary_company_id',
         'driver_user_id',
         'distance',
         'total_price',
@@ -103,17 +103,17 @@ class Trip extends BaseModel
     /**
      * @return mixed
      */
-    public function sender()
+    public function transporter()
     {
-        return $this->belongsTo(Company::class, 'sender_company_id');
+        return $this->belongsTo(Company::class, 'transporter_company_id');
     }
 
     /**
      * @return mixed
      */
-    public function receiver()
+    public function beneficiary()
     {
-        return $this->belongsTo(Company::class, 'receiver_company_id');
+        return $this->belongsTo(Company::class, 'beneficiary_company_id');
     }
 
 

@@ -26,7 +26,7 @@
 
                     <div class="form-group input-group has-feedback has-feedback-left companyContainer">
                         <label>Client:</label>
-                        {{ Form::select('receiver_company_id',$companies,$trip->receiver_company_id ?? null,['class' => 'companyInput form-control']) }}
+                        {{ Form::select('beneficiary_company_id',$companies,$trip->receiver_company_id ?? null,['class' => 'companyInput form-control']) }}
                         <div class="form-control-feedback">
                             <i class="glyphicon glyphicon-calendar"></i>
                         </div>

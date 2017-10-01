@@ -66,8 +66,7 @@ class TripsController extends Controller
     public function storeNew(TripRequest $req)
     {
 //        dd($req->all());
-
-
+        
         \DB::transaction(function () use ($req) {
 
 
@@ -76,8 +75,8 @@ class TripsController extends Controller
             ]);
 
             $trip = Trip::create($req->only([
-                'sender_company_id',
-                'receiver_company_id',
+                'transporter_company_id',
+                'beneficiary_company_id',
                 'driver_user_id',
                 'agreement',
                 'agreement_date',
