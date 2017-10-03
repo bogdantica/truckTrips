@@ -154,7 +154,9 @@
 
 </div>
 
-<div class="panel panel-white">
+<div class="panel panel-white"
+     {{--style="display: none"--}}
+>
 
     <div class="panel-body">
         <div class="map-container">
@@ -193,7 +195,9 @@
             var haveMap = $container.attr('data-map') == 'true';
 
             if (haveMap) {
-
+//                $('.map-wrapper').show();
+            } else {
+//                $('.map-wrapper').hide();
             }
 
             return true;
