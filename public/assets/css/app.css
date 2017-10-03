@@ -92,3 +92,7 @@
 .loadPlace legend, .unLoadPlace legend,.tripPlacesContainer legend:last-of-type {
     display: none;
 }
+
+.daterangepicker, .daterangepicker .calendar {
+    margin-top: 0;
+}

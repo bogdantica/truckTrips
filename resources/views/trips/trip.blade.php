@@ -66,14 +66,14 @@
         </fieldset>
 
     <h6>Incarcare</h6>
-    <fieldset>
+    <fieldset data-map="true">
         <div class="loadPlace">
             @include('trips.elements.point',['inputPrefix' => 'startPoint','point' => $trip->startPoint])
         </div>
     </fieldset>
 
     <h6>Puncte Aditionale</h6>
-    <fieldset>
+    <fieldset data-map="true">
         <div class="placesContainer">
 
             <div class="newPointModel">
@@ -97,8 +97,8 @@
         </div>
     </fieldset>
 
-        <h6>Descarcare</h6>
-        <fieldset>
+    <h6>Descarcare</h6>
+    <fieldset data-map="true">
             <div class="unLoadPlace">
                 @include('trips.elements.point',['inputPrefix' => 'endPoint','point' => $trip->endPoint])
             </div>
@@ -111,21 +111,57 @@
             </div>
         </fieldset>
 
-        <h6>Contract Comanda</h6>
+    <h6>Plata</h6>
+    <fieldset>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group has-feedback has-feedback-left">
+                    <label>Metoda de Plata:</label>
+                    {{ Form::select('pay_method_id',$payMethods,$trip->pay_method_id,['class' => 'form-control select','data-placeholder' => 'Metoda de Plata','data-allow-clear' => 'true']) }}
+                    <div class="form-control-feedback">
+                        <i class="icon-coin-euro"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group has-feedback has-feedback-left">
+                    <label>Data Platii:</label>
+                    {{ Form::text('pay_date',$trip->pay_day ? $trip->pay_day->format('d/m/Y') : null,['class' => 'form-control inputDate','data-placeholder' => 'Data Platii']) }}
+                    <div class="form-control-feedback">
+                        <i class="icon-coin-euro"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label>Detalii Plata:</label>
+                    {!! Form::textarea('pay_details',$trip->pay_details,['class' => 'form-control']) !!}
+                </div>
+            </div>
 
+        </div>
+
+    </fieldset>
+
+    <h6>Contract Comanda</h6>
     <fieldset class="pb-10">
-
-            {{--<div id="agreement" contenteditable="true">--}}
-            {{--{!! $trip->agreement !!}--}}
-            {{--</div>--}}
         {{ Form::textarea('agreement',$trip->agreement ?? null,['class' => 'agreementBody form-control','rows' => 5,'id' => 'agreement']) }}
-        </fieldset>
+    </fieldset>
 
-    </form>
+    {!! Form::close() !!}
 
 </div>
 
-{!! Form::close() !!}
+<div class="panel panel-white">
+
+    <div class="panel-body">
+        <div class="map-container">
+        </div>
+    </div>
+
+</div>
 
 @endpush
 
@@ -148,13 +184,26 @@
         onFinished: function (event, currentIndex) {
             var $this = $(this);
             $this.submit();
+        },
+        onStepChanging: function (e, newIndex, currentIndex) {
+            var $form = $(this);
+            var formId = $form.prop('id');
+            console.log(formId + '-p-' + currentIndex);
+            var $container = $form.find('#' + formId + '-p-' + currentIndex);
+            var haveMap = $container.attr('data-map') == 'true';
+
+            if (haveMap) {
+
+            }
+
+            return true;
         }
+
     }).form2({
         ignoreInputs: [
             '[currentIndex]'
         ]
     });
-
 
     $('.companyContainer .newCompanyAction').modalView({
         elementSelector: '.newCompanyContainer',
@@ -172,11 +221,9 @@
     });
 
     $('.placeInput').gooAutComp();
+    $('.map-container').gooMaps();
 
-
-    $('.companyInput').select2({
-        tags: {{--<div class="text-right">--}}true
-    });
+    //    $('.companyInput').select2();
 
     $("select:not([class^=\"select2\"])").select2();
 

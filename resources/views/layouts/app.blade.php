@@ -84,8 +84,9 @@
 <script type="text/javascript" src="/assets/js/plugins/pickers/pickadate/picker.time.js"></script>
 
 <script type="text/javascript" src="/assets/js/app/modalView.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsN2tik6I-CdmaYqKYOPt1MkiknzMzq2E&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7AJQm_b46ubAguGaokhuD307T8cRqGas&libraries=places"></script>
 <script type="text/javascript" src="/assets/js/app/gooAutComp.js"></script>
+<script type="text/javascript" src="/assets/js/app/gooMaps.js"></script>
 
 <script type="text/javascript" src="/assets/js/core/app.js"></script>
 @stack('scripts')

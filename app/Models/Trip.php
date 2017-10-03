@@ -27,7 +27,10 @@ class Trip extends BaseModel
         'pay_days',
         'pay_details',
         'agreement',
-        'agreement_date'
+        'agreement_date',
+        'pay_method_id',
+        'pay_date',
+        'pay_details'
     ];
 
     /**

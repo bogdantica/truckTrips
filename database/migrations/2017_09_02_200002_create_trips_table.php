@@ -31,7 +31,7 @@ class CreateTripsTable extends Migration
             $table->text('details')->nullable();
 
             $table->integer('pay_method_id')->index()->nullable();
-            $table->integer('pay_days')->nullable();
+            $table->date('pay_date')->nullable();
             $table->text('pay_details')->nullable();
             $table->text('agreement')->nullable();
 

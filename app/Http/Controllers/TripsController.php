@@ -44,7 +44,8 @@ class TripsController extends Controller
 
         $vehicles = $company->vehicles()->pluck('registration', 'id');
 
-        $payMethod = PayMethod::pluck('name', 'id');
+        $payMethods = PayMethod::pluck('name', 'id');
+
         $vats = Vat::pluck('name', 'id');
 
         $trip = new Trip();
@@ -56,7 +57,7 @@ class TripsController extends Controller
                 'companies',
                 'drivers',
                 'vehicles',
-                'payMethod',
+                'payMethods',
                 'vats',
                 'trip'
             )
@@ -80,6 +81,9 @@ class TripsController extends Controller
                 'driver_user_id',
                 'agreement',
                 'agreement_date',
+                'pay_method_id',
+                'pay_date',
+                'pay_details'
             ]));
 
 
@@ -164,9 +168,6 @@ class TripsController extends Controller
 
             $trip->total_price = $totalCost;
             $trip->save();
-
-//            dd($trip->toArray());
-
         });
 
         return new JsonResponse([
