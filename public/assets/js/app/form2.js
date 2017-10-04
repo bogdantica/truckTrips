@@ -12,6 +12,7 @@
             },
             afterSubmit: false,
             alterData: false,
+            steps: false,
             ignoreInputs: []
         };
 
@@ -34,7 +35,6 @@
 
         var getData = function () {
             var formData = $element.serializeArray();
-
             if (plugin.settings.alterData !== false) {
                 return plugin.settings.alterData.apply($element, [formData]);
             }
@@ -44,6 +44,7 @@
         };
 
         var ignoreInputs = function (data) {
+
             if (!plugin.settings.ignoreInputs.length) {
                 return data;
             }
@@ -59,6 +60,38 @@
                 }
             }
             return newData;
+        };
+
+        var stepsErrors = function (errors) {
+            //erase all.
+            $element.find('[aria-controls^=steps]').removeClass('text-danger');
+
+            var localIndex = 0;
+            formErrors($element, errors, function ($input, selector, index, total) {
+                var $container = $input.closest('fieldset');
+                var id = $container.attr('aria-labelledby');
+
+                if (!id) {
+                    return;
+                }
+
+                id = id.replace('-h-', '-t-');
+
+                var $title = $element.find('#' + id);
+
+                if ($title.length) {
+                    if (!$title.hasClass('text-danger')) {
+                        $title.addClass('text-danger');
+                    }
+
+                    if (localIndex == 0) {
+                        $title.click();
+                    }
+                }
+
+                localIndex++;
+            });
+
         };
 
         var submitHandler = function () {
@@ -86,6 +119,9 @@
                 error: function (r, status, z) {
                     //todo
                     // console.log(r, status, z);
+                    if (plugin.settings.steps === true) {
+                        stepsErrors(r.responseJSON.errors);
+                    }
                     formErrors($element, r.responseJSON.errors);
                 }
             });

@@ -117,7 +117,7 @@
             <div class="col-xs-12 col-md-6">
                 <div class="form-group has-feedback has-feedback-left">
                     <label>Metoda de Plata:</label>
-                    {{ Form::select('pay_method_id',$payMethods,$trip->pay_method_id,['class' => 'form-control select','data-placeholder' => 'Metoda de Plata','data-allow-clear' => 'true']) }}
+                    {{ Form::select('pay_method_id',$payMethods,$trip->pay_method_id,['class' => 'form-control select','data-allow-clear' => 'true']) }}
                     <div class="form-control-feedback">
                         <i class="icon-coin-euro"></i>
                     </div>
@@ -128,7 +128,7 @@
                     <label>Data Platii:</label>
                     {{ Form::text('pay_date',$trip->pay_day ? $trip->pay_day->format('d/m/Y') : null,['class' => 'form-control inputDate','data-placeholder' => 'Data Platii']) }}
                     <div class="form-control-feedback">
-                        <i class="icon-coin-euro"></i>
+                        <i class="icon-calendar"></i>
                     </div>
                 </div>
             </div>
@@ -137,7 +137,7 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <label>Detalii Plata:</label>
-                    {!! Form::textarea('pay_details',$trip->pay_details,['class' => 'form-control']) !!}
+                    {!! Form::textarea('pay_details',$trip->pay_details,['class' => 'form-control','placeholder' => 'Detalii Plata','rows' => 4,]) !!}
                 </div>
             </div>
 
@@ -154,16 +154,16 @@
 
 </div>
 
-<div class="panel panel-white"
+{{--<div class="panel panel-white"--}}
      {{--style="display: none"--}}
->
+{{-->--}}
 
-    <div class="panel-body">
-        <div class="map-container">
-        </div>
-    </div>
+{{--<div class="panel-body">--}}
+{{--<div class="map-container">--}}
+{{--</div>--}}
+{{--</div>--}}
 
-</div>
+{{--</div>--}}
 
 @endpush
 
@@ -190,7 +190,7 @@
         onStepChanging: function (e, newIndex, currentIndex) {
             var $form = $(this);
             var formId = $form.prop('id');
-            console.log(formId + '-p-' + currentIndex);
+
             var $container = $form.find('#' + formId + '-p-' + currentIndex);
             var haveMap = $container.attr('data-map') == 'true';
 
@@ -203,11 +203,13 @@
             return true;
         }
 
-    }).form2({
-        ignoreInputs: [
-            '[currentIndex]'
-        ]
-    });
+    })
+        .form2({
+            steps: true,
+            ignoreInputs: [
+                '[currentIndex]'
+            ]
+        });
 
     $('.companyContainer .newCompanyAction').modalView({
         elementSelector: '.newCompanyContainer',
@@ -225,7 +227,7 @@
     });
 
     $('.placeInput').gooAutComp();
-    $('.map-container').gooMaps();
+    //    $('.map-container').gooMaps();
 
     //    $('.companyInput').select2();
 
@@ -246,11 +248,8 @@
 
     $('.newService,.oldService').services();
 
+    CKEDITOR.replace($('.agreementBody')[0]).on('instanceReady', CKEDitorChangeHook);
 
-    CKEDITOR.replace($('.agreementBody')[0], {
-//        height: '400px',
-//        extraPlugins: 'forms'
-    });
     $('.newPointModel').places();
 
 </script>

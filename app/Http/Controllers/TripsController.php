@@ -66,7 +66,7 @@ class TripsController extends Controller
 
     public function storeNew(TripRequest $req)
     {
-//        dd($req->all());
+        dd($req->all());
         
         \DB::transaction(function () use ($req) {
 

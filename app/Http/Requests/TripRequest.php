@@ -71,7 +71,7 @@ class TripRequest extends FormRequest
 
             'agreement' => 'nullable|string',
 
-            'pay_method_id' => 'nullable|integer|exists:pay_methods',
+            'pay_method_id' => 'nullable|integer|exists:pay_methods,id',
             'pay_date' => 'nullable|date_format:d/m/Y',
             'pay_details' => 'nullable|string'
 
