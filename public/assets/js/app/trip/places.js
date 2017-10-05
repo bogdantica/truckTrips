@@ -12,7 +12,8 @@
         var defaults = {
             newPlaceAction: '.newPlaceAction',
             newPlaceContainer: '.tripPlacesContainer',
-            deletePlaceAction: '.deletePlaceAction'
+            deletePlaceAction: '.deletePlaceAction',
+            clearPlaceAction: '.clearPlaceAction'
         };
         var plugin = this;
         plugin.settings = {};
@@ -25,6 +26,7 @@
         var $container;
         var $mainContainer;
         var $deleteAction;
+        var $clearPlaceAction;
 
         plugin.init = function () {
             plugin.settings = $.extend({}, defaults, options);
@@ -39,6 +41,7 @@
             $container = $mainContainer.find(plugin.settings.newPlaceContainer);
 
             $deleteAction = $element.find(plugin.settings.deletePlaceAction);
+            $clearPlaceAction = $element.find(plugin.settings.clearPlaceAction);
         };
 
         var initEvents = function () {
@@ -48,6 +51,13 @@
             $deleteAction.click(function () {
                 plugin.deletePlace();
             });
+
+            $clearPlaceAction.click(function () {
+                $element.find('[name^="point[new][currentIndex]"]:not([name="point[new][currentIndex][schedule_date]"])')
+                    .val(null);
+                plugin.removeErrors();
+            });
+
         };
         plugin.newPlace = function () {
 
@@ -98,6 +108,8 @@
 
             $newPlace.data('serviceIndex', currentIndex);
             $newPlace.find(plugin.settings.newPlaceAction).remove();
+            $newPlace.find(plugin.settings.clearPlaceAction).remove();
+
             $newPlace.find(plugin.settings.deletePlaceAction).closest('.row').show();
 
             $newPlace.places();

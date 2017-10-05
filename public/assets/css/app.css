@@ -9,7 +9,7 @@
 }
 
 .panel:hover {
-    box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 35px -15px rgba(0, 0, 0, 1);
 }
 
 .has-feedback-left .select2-selection__rendered {
@@ -95,4 +95,8 @@
 
 .daterangepicker, .daterangepicker .calendar {
     margin-top: 0;
+}
+
+.btn-group.sticky .btn + .btn {
+    margin-left: 0;
 }

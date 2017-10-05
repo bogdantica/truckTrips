@@ -79,10 +79,15 @@
             <div class="newPointModel">
                 <div class="row">
                     <div class="col-xs-12 pb-5">
-                        <button type="button" class="btn btn-warning pull-right newPlaceAction" data-service-index="0">
-                            <i class="icon-calculator3 position-left"></i>
-                            Adauga
-                        </button>
+                        <div class="btn-group pull-right sticky">
+                            <button type="button" class="btn btn-primary newPlaceAction">
+                                <i class="glyphicon glyphicon-plus position-left"></i>
+                                Adauga
+                            </button>
+                            <button type="button" class="btn bg-danger-300 clearPlaceAction">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 @include('trips.elements.point',['inputPrefix' => 'point[new][currentIndex]','point' => null])
@@ -117,7 +122,7 @@
             <div class="col-xs-12 col-md-6">
                 <div class="form-group has-feedback has-feedback-left">
                     <label>Metoda de Plata:</label>
-                    {{ Form::select('pay_method_id',$payMethods,$trip->pay_method_id,['class' => 'form-control select','data-allow-clear' => 'true']) }}
+                    {{ Form::select('pay_method_id',$payMethods,$trip->pay_method_id,['class' => 'form-control select','placeholder' => 'Metoda de Plata','data-placeholder' => 'Metoda de Plata','data-allow-clear' => 'true']) }}
                     <div class="form-control-feedback">
                         <i class="icon-coin-euro"></i>
                     </div>
@@ -187,8 +192,79 @@
             var $this = $(this);
             $this.submit();
         },
-        onStepChanging: function (e, newIndex, currentIndex) {
+        onStepChanging: function (e, currentIndex, newIndex) {
             var $form = $(this);
+
+            //todo add jqeury validation on each section !
+
+            if (currentIndex == 2 && newIndex > currentIndex) {
+                var clear = true;
+                $form.find('[name^="point[new][currentIndex]"]:not([name="point[new][currentIndex][schedule_date]"])').each(function () {
+                    var $this = $(this);
+                    if ($this.val() != "") {
+                        clear = false;
+
+                        var $group = $this.closest('.form-group');
+                        $group.addClass('animated').addClass('tada')
+                        setTimeout(function () {
+                            $group.removeClass('tada').removeClass('animated')
+                        }, 1000);
+                    }
+                });
+
+                if (!clear) {
+
+                    var $placeAction = $form.find('.newPlaceAction');
+                    var $clearPlaceAction = $form.find('.clearPlaceAction');
+                    $placeAction.addClass('animated').addClass('rubberBand');
+                    $clearPlaceAction.addClass('animated').addClass('flash');
+
+
+                    setTimeout(function () {
+                        $placeAction
+                            .removeClass('animated').removeClass('rubberBand');
+                        $clearPlaceAction.removeClass('animated').removeClass('flash');
+
+                    }, 1000);
+
+                    return false;
+                }
+
+            }
+
+            if (currentIndex == 4 && newIndex > currentIndex) {
+                clear = true;
+                $form.find('[name^="services[new][currentIndex]"]').each(function () {
+                    var $this = $(this);
+                    if ($this.val() != "") {
+                        clear = false;
+
+                        var $group = $this.closest('.form-group');
+                        $group.addClass('animated').addClass('tada')
+                        setTimeout(function () {
+                            $group.removeClass('tada').removeClass('animated');
+                        }, 1000);
+                    }
+                });
+
+                if (!clear) {
+                    var $serviceAction = $form.find('.newServiceAction');
+                    var $clearServiceAction = $form.find('.clearServiceAction');
+
+                    $serviceAction.addClass('animated').addClass('rubberBand');
+                    $clearServiceAction.addClass('animated').addClass('flash');
+
+                    setTimeout(function () {
+                        $clearServiceAction.removeClass('animated').removeClass('flash');
+                        $serviceAction
+                            .removeClass('animated').removeClass('rubberBand');
+
+                    }, 1000);
+
+                    return false;
+                }
+            }
+
             var formId = $form.prop('id');
 
             var $container = $form.find('#' + formId + '-p-' + currentIndex);
@@ -228,8 +304,6 @@
 
     $('.placeInput').gooAutComp();
     //    $('.map-container').gooMaps();
-
-    //    $('.companyInput').select2();
 
     $("select:not([class^=\"select2\"])").select2();
 

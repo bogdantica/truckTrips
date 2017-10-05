@@ -7,7 +7,6 @@
             </button>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-12 col-md-6">
             <div class="form-group  has-feedback has-feedback-left">
@@ -18,11 +17,10 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xs-12  col-md-4">
             <div class="form-group has-feedback has-feedback-left">
                 <label>Strada</label>
-                {!! Form::text($inputPrefix . '[address][street]',($point->address->street ?? false ),['class' => 'form-control ', 'placeholder' => 'Strada']) !!}
+                {!! Form::text($inputPrefix . '[address][street]',($point->address_street ?? false ),['class' => 'form-control ', 'placeholder' => 'Strada']) !!}
                 <div class="form-control-feedback">
                     <i class="glyphicon glyphicon-road"></i>
                 </div>
@@ -31,7 +29,7 @@
         <div class="col-xs-6 col-md-2">
             <div class="form-group  has-feedback has-feedback-left">
                 <label>Numar</label>
-                {!! Form::text($inputPrefix . '[address][number]',($point->address->number ?? null ),['class' => 'form-control ', 'placeholder' => 'Numar']) !!}
+                {!! Form::text($inputPrefix . '[address][number]',($point->address_number ?? null ),['class' => 'form-control ', 'placeholder' => 'Numar']) !!}
                 <div class="form-control-feedback">
                     <i class="fa fa-hashtag"></i>
                 </div>
@@ -42,7 +40,7 @@
         <div class="col-md-4">
             <div class="form-group  has-feedback has-feedback-left">
                 <label>Localitate</label>
-                {!! Form::text($inputPrefix . '[address][locality]',($point->address->locality ?? null ),['class' => 'form-control ', 'placeholder' => 'Localitate']) !!}
+                {!! Form::text($inputPrefix . '[address][locality]',($point->address_locality ?? null ),['class' => 'form-control ', 'placeholder' => 'Localitate']) !!}
                 <div class="form-control-feedback">
                     <i class="icon-traffic-lights"></i>
                 </div>
@@ -51,7 +49,7 @@
         <div class="col-xs-6 col-md-4">
             <div class="form-group has-feedback has-feedback-left ">
                 <label>Judet</label>
-                {!! Form::text($inputPrefix . '[address][county]',($point->address->county ?? null ),['class' => 'form-control ', 'placeholder' => 'Judet']) !!}
+                {!! Form::text($inputPrefix . '[address][county]',($point->address_county ?? null ),['class' => 'form-control ', 'placeholder' => 'Judet']) !!}
                 <div class="form-control-feedback">
                     <i class="fa fa-exchange"></i>
                 </div>
@@ -61,7 +59,7 @@
         <div class="col-xs-6 col-md-4">
             <div class="form-group has-feedback has-feedback-left">
                 <label>Tara</label>
-                {!! Form::text($inputPrefix . '[address][country]',($point->address->country ?? null ),['class' => 'form-control ', 'placeholder' => 'Tara']) !!}
+                {!! Form::text($inputPrefix . '[address][country]',($point->address_country ?? null ),['class' => 'form-control ', 'placeholder' => 'Tara']) !!}
                 <div class="form-control-feedback">
                     <i class="glyphicon glyphicon-flag"></i>
                 </div>

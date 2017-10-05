@@ -18,6 +18,7 @@ class CreateTripServicesTable extends Migration
             $table->string('name');
             $table->float('quantity');
             $table->float('price');
+            $table->float('total');
             $table->integer('trip_id')->index();
         });
     }

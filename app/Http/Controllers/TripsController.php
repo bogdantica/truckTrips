@@ -7,7 +7,6 @@ use App\Models\Company;
 use App\Models\PayMethod;
 use App\Models\PointType;
 use App\Models\Trip;
-use App\Models\Truck;
 use App\Models\Vat;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -66,10 +65,7 @@ class TripsController extends Controller
 
     public function storeNew(TripRequest $req)
     {
-        dd($req->all());
-        
         \DB::transaction(function () use ($req) {
-
 
             $req->merge([
                 'agreement_date' => Carbon::createFromFormat('d/m/Y', $req->agreement_date)
@@ -85,7 +81,7 @@ class TripsController extends Controller
                 'pay_date',
                 'pay_details'
             ]));
-
+            //todo add vehicles !!
 
             $point = (object)$req->startPoint;
             $add = (object)$point->address;
@@ -162,6 +158,7 @@ class TripsController extends Controller
                     'price' => $serv->price,
                     'total' => $serv->quantity * $serv->price,
                 ]);
+
                 $totalCost += $serv->quantity * $serv->price;
             }
 
@@ -176,12 +173,56 @@ class TripsController extends Controller
 
     }
 
-    public function edit(Request $req, Trip $trip)
+    public function edit(Trip $trip)
     {
-        dd($trip->toArray(), $req->all());
+        $trip->load([
+            'startPoint',
+            'endPoint',
+            'points',
+            'services',
+//            'vehicles'
+        ]);
+
+        $trip->startPoint->schedule_time = $trip->startPoint->schedule_time ? Carbon::parse($trip->startPoint->schedule_time) : null;
+        $trip->endPoint->schedule_time = $trip->endPoint->schedule_time ? Carbon::parse($trip->endPoint->schedule_time) : null;
+
+        $trip->points->each(function (&$point) {
+            $point->schedule_time = $point->schedule_time ? Carbon::parse($point->schedule_time) : null;
+        });
+
+        $company = Company::first();
+
+        $companies = Company::pluck('name', 'id');
+
+        $drivers = $company->drivers()->pluck('name', 'id');
+
+        $vehicles = $company->vehicles()->pluck('registration', 'id');
+
+        $payMethods = PayMethod::pluck('name', 'id');
+
+        $vats = Vat::pluck('name', 'id');
+
+//        dd($trip->toArray());
+
+        return view('trips.trip', compact(
+                'company',
+                'companies',
+                'drivers',
+                'vehicles',
+                'payMethods',
+                'vats',
+                'trip'
+            )
+        );
+
     }
 
-
+    public function editStore(Request $req, Trip $trip)
+    {
+        //validate and update removed interPoints and services !!
+//        todo
+    }
+    
     public function end(Trip $trip, Request $request)
     {
         $this->validate($request, [

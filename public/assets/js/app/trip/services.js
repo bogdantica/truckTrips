@@ -13,11 +13,13 @@
             newServiceAction: '.newServiceAction',
             newServiceContainer: '.tripServicesContainer',
             deleteServiceAction: '.deleteServiceAction',
+            clearServiceAction: '.clearServiceAction',
 
             price: '[name$="[price]"]',
             quantity: '[name$="[quantity]"]',
             total: '[name$="[total]"]'
         };
+
         var plugin = this;
         plugin.settings = {};
 
@@ -29,6 +31,7 @@
         var $mainContainer;
         var $container;
         var $deleteAction;
+        var $clearAction;
         var $price;
         var $quantity;
         var $total;
@@ -44,6 +47,7 @@
             $mainContainer = $element.closest('.servicesContainer');
             $container = $mainContainer.find(plugin.settings.newServiceContainer);
             $deleteAction = $element.find(plugin.settings.deleteServiceAction);
+            $clearAction = $element.find(plugin.settings.clearServiceAction);
             $price = $element.find(plugin.settings.price);
             $quantity = $element.find(plugin.settings.quantity);
             $total = $element.find(plugin.settings.total);
@@ -55,6 +59,11 @@
             });
             $deleteAction.click(function () {
                 plugin.deleteService();
+            });
+            $clearAction.click(function () {
+                $element.find('[name^="services[new][currentIndex]"]')
+                    .val(null);
+                plugin.removeErrors();
             });
             $price.keyup(function () {
                 plugin.total();
@@ -109,6 +118,7 @@
 
             $newService.data('serviceIndex', currentIndex);
             $newService.find(plugin.settings.newServiceAction).remove();
+            $newService.find(plugin.settings.clearServiceAction).remove();
             $newService.find(plugin.settings.deleteServiceAction).show();
             $newService.services();
 
@@ -151,7 +161,7 @@
             var price = $price.val();
 
             if (quantity && price) {
-                var total = parseFloat(price) * parseFloat(price);
+                var total = parseFloat(price) * parseFloat(quantity);
                 $total.val(Math.round(total * 10000) / 10000);
             }
 

@@ -53,9 +53,12 @@
                 <i class="icon-coins"></i>
             </div>
             <div class="input-group-btn">
-                <button type="button" class="btn btn-warning newServiceAction" data-service-index="0">
-                    <i class="icon-calculator3 position-left"></i>
+                <button type="button" class="btn btn-primary newServiceAction" data-service-index="0">
+                    <i class="glyphicon glyphicon-plus position-left"></i>
                     Adauga
+                </button>
+                <button type="button" class="btn bg-danger-300 clearServiceAction">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
                 </button>
                 <button type="button" class="btn btn-danger deleteServiceAction" style="display:none"
                         data-service-index="0">

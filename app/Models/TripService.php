@@ -10,6 +10,7 @@ class TripService extends Model
         'name',
         'quantity',
         'price',
+        'total',
         'trip_id'
     ];
 

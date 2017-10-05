@@ -121,6 +121,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::put('/trips/edit/{trip}', [
         'as' => 'trips.edit',
+//        'uses' => 'TripsController@edit'
+    ]);
+
+    Route::get('/trips/edit/{trip}', [
+        'as' => 'trips.edit',
         'uses' => 'TripsController@edit'
     ]);
 

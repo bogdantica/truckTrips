@@ -100,7 +100,7 @@ class Trip extends BaseModel
      */
     public function vehicles()
     {
-        return $this->belongsToMany(Vehicle::class);
+//        return $this->belongsToMany(Vehicle::class,'');
     }
 
     /**

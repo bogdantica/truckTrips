@@ -15,6 +15,8 @@
     <link href="/assets/css/core.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/extras/animate.min.css" rel="stylesheet" type="text/css">
     <link href="/assets/js/plugins/pickers/datetimepicker/datetimepicker.min.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/app.css" rel="stylesheet" type="text/css">
 

@@ -33,7 +33,7 @@ class TripRequest extends FormRequest
 
             'startPoint.address.street' => 'nullable|string',
             'startPoint.address.number' => 'nullable|string',
-            'startPoint.address.county' => 'nullable|string',
+            'startPoint.address.county' => 'required|string',
             'startPoint.address.locality' => 'required|string',
             'startPoint.address.country' => 'required|string',
             'startPoint.schedule_date' => 'required|date_format:d/m/Y',
@@ -44,7 +44,7 @@ class TripRequest extends FormRequest
 
             'endPoint.address.street' => 'nullable|string',
             'endPoint.address.number' => 'nullable|string',
-            'endPoint.address.county' => 'nullable|string',
+            'endPoint.address.county' => 'required|string',
             'endPoint.address.locality' => 'required|string',
             'endPoint.address.country' => 'required|string',
             'endPoint.schedule_date' => 'required|date_format:d/m/Y',
@@ -55,7 +55,7 @@ class TripRequest extends FormRequest
 
             'point.new.*.address.street' => 'nullable|string',
             'point.new.*.address.number' => 'nullable|string',
-            'point.new.*.address.county' => 'nullable|string',
+            'point.new.*.address.county' => 'required|string',
             'point.new.*.address.locality' => 'required|string',
             'point.new.*.address.country' => 'required|string',
             'point.new.*.schedule_date' => 'required|date_format:d/m/Y',
@@ -71,7 +71,7 @@ class TripRequest extends FormRequest
 
             'agreement' => 'nullable|string',
 
-            'pay_method_id' => 'nullable|integer|exists:pay_methods,id',
+            'pay_method_id' => 'nullable|exists:pay_methods,id',
             'pay_date' => 'nullable|date_format:d/m/Y',
             'pay_details' => 'nullable|string'
 
