@@ -1,21 +1,21 @@
 <div class="row labels">
     <div class="col-md-3">
-        <div class=" has-feedback has-feedback-left ">
+        <div class=" has-feedback has-feedback-left required">
             <label>Serviciu Nou</label>
         </div>
     </div>
     <div class="col-md-2">
-        <div class=" has-feedback has-feedback-left ">
+        <div class=" has-feedback has-feedback-left required">
             <label>Cantitate</label>
         </div>
     </div>
     <div class="col-md-3">
-        <div class=" has-feedback has-feedback-left ">
+        <div class="has-feedback has-feedback-left required">
             <label>Pret</label>
         </div>
     </div>
     <div class="col-md-4">
-        <div class=" input-group has-feedback has-feedback-left">
+        <div class="input-group has-feedback has-feedback-left required">
             <label>Total</label>
         </div>
     </div>
@@ -53,15 +53,21 @@
                 <i class="icon-coins"></i>
             </div>
             <div class="input-group-btn">
-                <button type="button" class="btn btn-primary newServiceAction" data-service-index="0">
-                    <i class="glyphicon glyphicon-plus position-left"></i>
-                    Adauga
+                <button type="button" class="btn btn-primary newServiceAction" data-service-index="0"
+                        data-popup="popover" data-trigger="hover" data-placement="top"
+                        data-content="Adauga in Comanda"
+                >
+                    <i class="glyphicon glyphicon-plus"></i>
                 </button>
-                <button type="button" class="btn bg-danger-300 clearServiceAction">
+                <button type="button" class="btn bg-danger-300 clearServiceAction"
+                        data-popup="popover" data-trigger="hover" data-placement="top"
+                        data-content="Goleste campurile">
                     <i class="glyphicon glyphicon-remove-sign"></i>
                 </button>
                 <button type="button" class="btn btn-danger deleteServiceAction" style="display:none"
-                        data-service-index="0">
+                        data-service-index="0"
+                        data-popup="popover" data-trigger="hover" data-placement="top"
+                        data-content="Sterge din Comanda">
                     <i class="icon-calculator3 position-left"></i>
                     Sterge
                 </button>
@@ -72,22 +78,22 @@
 
 <div class="row labels header">
     <div class="col-md-3">
-        <div class=" has-feedback has-feedback-left ">
+        <div class=" has-feedback has-feedback-left required">
             <label>Serviciu</label>
         </div>
     </div>
     <div class="col-md-2">
-        <div class=" has-feedback has-feedback-left ">
+        <div class=" has-feedback has-feedback-left required">
             <label>Cantitate</label>
         </div>
     </div>
     <div class="col-md-3">
-        <div class=" has-feedback has-feedback-left ">
+        <div class=" has-feedback has-feedback-left required">
             <label>Pret</label>
         </div>
     </div>
     <div class="col-md-4">
-        <div class=" input-group has-feedback has-feedback-left">
+        <div class=" input-group has-feedback has-feedback-left required">
             <label>Total</label>
         </div>
     </div>
@@ -128,9 +134,11 @@
                     </div>
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-danger deleteServiceAction"
-                                data-service-id="{{ $service->id }}">
-                            <i class="icon-calculator3 position-left"></i>
-                            Sterge
+                                data-service-id="{{ $service->id }}"
+                                data-service-index="0"
+                                data-popup="popover" data-trigger="hover" data-placement="top"
+                                data-content="Sterge din Comanda">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
                         </button>
                     </div>
                 </div>

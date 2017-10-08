@@ -9,10 +9,19 @@ use Illuminate\Http\Request;
 
 class VehiclesController extends Controller
 {
+
+    public function vehicles()
+    {
+        $vehicles = Vehicle::get();
+
+        return view('vehicles.vehicles', compact('vehicles'));
+    }
+
     public function new()
     {
         $vehicle = new Vehicle();
         $types = VehicleType::pluck('name', 'id');
+
         return view('vehicles.vehicle', compact('vehicle', 'types'));
     }
 
@@ -31,6 +40,9 @@ class VehiclesController extends Controller
         $reg = strtoupper(str_replace(' ', '', $reg));
 
         $req->merge(['registration' => $reg]);
+
+
+
 
         $vehicle = Vehicle::create($req->all(['registration', 'name', 'vin', 'vehicle_type_id', 'max_weight']));
         $vehicle->isNew = true;

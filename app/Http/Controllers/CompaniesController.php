@@ -8,12 +8,14 @@ use Illuminate\Http\Request;
 
 class CompaniesController extends Controller
 {
-    public function new()
+    public function new($owner = null)
     {
-        return view('companies.company');
+        $byOwner = $owner;
+
+        return view('companies.company', compact('byOwner'));
     }
 
-    public function storeNew(Request $req)
+    public function storeNew(Request $req, $owner = null)
     {
         $this->validate($req, [
             'cif' => 'required',
@@ -22,22 +24,33 @@ class CompaniesController extends Controller
             'address' => 'required'
         ]);
 
+
         $req->merge(['cif' => strtoupper($req->cif)]);
         $comp = Company::whereCif($req->cif)->first();
 
+        $isNew = true;
+
         if (!$comp) {
             $comp = new Company();
-            $comp->isNew = false;
+            $isNew = false;
         }
 
+        if ($owner && !$comp->owner_user_id) {
+            $req->merge(['owner_user_id' => \Auth::id()]);
+
+        }
         $comp->fill($req->only([
             'cif',
             'name',
             'reg_id',
-            'address'
+            'address',
+            'owner_user_id'
         ]))
             ->save();
 
+        if (!$isNew) {
+            $comp->isNew = false;
+        }
         if ($req->ajax()) {
             return new JsonResponse($comp);
         }

@@ -11,7 +11,14 @@
         <div class="col-xs-12 col-md-6">
             <div class="form-group  has-feedback has-feedback-left">
                 <label>Cauta Adresa</label>
-                {!! Form::text('', null,['class' => 'form-control  placeInput', 'data-placeholder' => 'Cauta Adresa']) !!}
+                {!! Form::text('', null,['class' => 'form-control  placeInput', 'data-placeholder' => 'Cauta Adresa',
+                    'data-popup'=>"popover",
+                    'data-trigger'=>"hover",
+                    'data-placement'=>"top",
+                    'data-title'=>"Cauta adresa",
+                    'data-html'=>"true",
+                    'data-content'=>"Aplicatia cauta in GoogleMaps si incearca sa completeze campurile. <br> Ex: <i>Vitan-Barzesti 7D</i> sau <i>Mega Image Depozit</i>"
+                ]) !!}
                 <div class="form-control-feedback">
                     <i class="glyphicon glyphicon-map-marker"></i>
                 </div>
@@ -38,7 +45,7 @@
     </div>
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group  has-feedback has-feedback-left">
+            <div class="form-group required  has-feedback has-feedback-left">
                 <label>Localitate</label>
                 {!! Form::text($inputPrefix . '[address][locality]',($point->address_locality ?? null ),['class' => 'form-control ', 'placeholder' => 'Localitate']) !!}
                 <div class="form-control-feedback">
@@ -47,7 +54,7 @@
             </div>
         </div>
         <div class="col-xs-6 col-md-4">
-            <div class="form-group has-feedback has-feedback-left ">
+            <div class="form-group required has-feedback has-feedback-left ">
                 <label>Judet</label>
                 {!! Form::text($inputPrefix . '[address][county]',($point->address_county ?? null ),['class' => 'form-control ', 'placeholder' => 'Judet']) !!}
                 <div class="form-control-feedback">
@@ -57,7 +64,7 @@
         </div>
 
         <div class="col-xs-6 col-md-4">
-            <div class="form-group has-feedback has-feedback-left">
+            <div class="form-group required has-feedback has-feedback-left">
                 <label>Tara</label>
                 {!! Form::text($inputPrefix . '[address][country]',($point->address_country ?? null ),['class' => 'form-control ', 'placeholder' => 'Tara']) !!}
                 <div class="form-control-feedback">

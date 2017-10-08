@@ -29,9 +29,12 @@ function formErrors($form, errors, closure) {
         var index = 0;
         for (var inputErrorKey in inputErrors) {
             var inputError = inputErrors[inputErrorKey];
-            inputSelector = '[name="' + inputSelector + '"]';
+            inputSelector = '[name^="' + inputSelector + '"]';
 
             var $input = $form.find(inputSelector);
+            // if ($input.length == 0) {
+            //     $input = $form.find(inputSelector);
+            // }
 
             if ($input.prop('type') != 'text') {
                 $input = $input.first(':checked');

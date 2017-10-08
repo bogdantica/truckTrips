@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 class DriversController extends Controller
 {
 
+    public function drivers()
+    {
+        $drivers = User::get();
+
+        return view('driver.drivers', compact('drivers'));
+    }
+    
     public function new()
     {
         $user = new User();

@@ -8,6 +8,11 @@
                         <img src="/assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
                     <div class="media-body">
                         <span class="media-heading text-semibold">{{ \Auth::user()->name ?? "Guest" }}</span>
+                        @if(\Auth::user()->companyName())
+                            <div class="text-size-mini text-muted">
+                                <i class="icon-office text-size-small"></i> &nbsp;{{ \Auth::user()->companyName() }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

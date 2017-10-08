@@ -3,26 +3,26 @@ return [
     'menu' => [
         'items' => [
             [
-                'title' => 'Curse',
-                'route' => 'trips',
-                'icon' => 'fa fa-code-fork'
-//                'items' => [
-//                    [
-//                        'title' => 'Test tile 2',
-//                        'items' => [
-//                            [
-//                                'title' => 'First Link',
-//                                'href' => 'gogole.com'
-//                            ],
-//                            [
-//                                'title' => 'Route',
-//                                'route' => 'register',
-//                                'icon' => 'icon-apple2'
-//                            ]
-//                        ]
-//                    ]
-//                ]
+                'title' => 'Entitati',
+                'icon' => 'fa fa-building',
+                'items' => [
+                    [
+                        'title' => 'Curse',
+                        'route' => 'trips',
+                        'icon' => 'fa fa-code-fork'
+                    ],
+                    [
+                        'title' => 'Vehicule',
+                        'route' => 'vehicles',
+                        'icon' => 'fa fa-truck'
+                    ],
+                    [
+                        'title' => 'Soferi',
+                        'route' => 'drivers',
+                        'icon' => 'fa fa-user'
+                    ],
+                ]
             ]
-        ]
+        ],
     ]
 ];

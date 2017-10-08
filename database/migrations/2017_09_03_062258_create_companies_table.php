@@ -27,11 +27,14 @@ class CreateCompaniesTable extends Migration
             $table->string('website')->nullable();
             $table->integer('contact_user_id')->index()->nullable();
 
+            $table->text('agreement_template')->nullable();
 
-
+            $table->integer('owner_user_id')->nullable()->index();
 
             $table->timestamps();
             $table->softDeletes();
+
+
         });
     }
 

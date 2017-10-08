@@ -62,47 +62,7 @@ Route::get('/login/{token}', [
     'uses' => 'Auth\LoginController@byToken'
 ]);
 
-Route::group(['middleware' => 'auth'], function () {
-
-
-    Route::get('/companies/external/', [
-        'as' => 'companies.external',
-        function (\Illuminate\Http\Request $request) {
-
-            $cif = $request->query('cif');
-
-
-            $cif = strtolower($cif);
-            $cif = str_replace('ro', '', $cif);
-
-            if (strlen($cif) != 8) {
-                return new \Illuminate\Http\JsonResponse((object)[]);
-            }
-
-            $url = 'https://legacy.openapi.ro/api/companies/>cif<.json';
-            $url = str_replace('>cif<', $cif, $url);
-
-            $client = new \GuzzleHttp\Client([
-//        'cookies' => true
-            ]);
-
-            try {
-                $r = $client->request('GET', $url, [
-                    'allow_redirects' => true,
-//        'debug' => true
-                ]);
-
-                $r = \GuzzleHttp\json_decode($r->getBody()->getContents());
-
-            } catch (\Exception $e) {
-                $r = (object)[];
-            }
-
-            return new \Illuminate\Http\JsonResponse($r);
-
-        }]);
-
-
+Route::group(['middleware' => ['auth', 'requireCompany']], function () {
 
     Route::get('trips', [
         'as' => 'trips',
@@ -121,7 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::put('/trips/edit/{trip}', [
         'as' => 'trips.edit',
-//        'uses' => 'TripsController@edit'
+        'uses' => 'TripsController@edit'
     ]);
 
     Route::get('/trips/edit/{trip}', [
@@ -139,6 +99,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'DriversController@storeNew'
     ]);
 
+    Route::get('/vehicles', [
+        'as' => 'vehicles',
+        'uses' => 'VehiclesController@vehicles'
+    ]);
+
     Route::get('/vehicles/new', [
         'as' => 'vehicles.new',
         'uses' => 'VehiclesController@new'
@@ -149,24 +114,10 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'VehiclesController@storeNew'
     ]);
 
-    Route::get('/companies', [
-        'as' => 'companies',
-        'uses' => 'CompaniesController@new'
-    ]);
 
-    Route::get('/companies/new', [
-        'as' => 'companies.new',
-        'uses' => 'CompaniesController@new'
-    ]);
-
-    Route::post('companies/new', [
-        'as' => 'companies.new',
-        'uses' => 'CompaniesController@storeNew'
-    ]);
-
-    Route::post('companies/new', [
-        'as' => 'companies.new',
-        'uses' => 'CompaniesController@storeNew'
+    Route::get('/drivers', [
+        'as' => 'drivers',
+        'uses' => 'DriversController@drivers'
     ]);
 
 //    Route::get('/driver', [

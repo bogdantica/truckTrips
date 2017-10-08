@@ -3,9 +3,17 @@
 @push('content')
 
 <div class="panel panel-white newCompanyContainer">
-    {!! Form::open(['url' =>route('companies.new'),'method' => ($company->id ?? false) ? 'PUT': 'POST']) !!}
+
+    @php $route = empty($byOwner) ? route('companies.new') : route('companies.new.byOwner',['owner' => sha1(time()) ])  @endphp
+
+    {!! Form::open(['url' => $route,'method' => ($company->id ?? false) ? 'PUT': 'POST']) !!}
+
     <div class="panel-heading">
-        <h6 class="panel-title">Companie Noua</h6>
+        @if($byOwner)
+            <h6 class="panel-title">Compania ta</h6>
+        @else
+            <h6 class="panel-title">Companie Noua</h6>
+        @endif
     </div>
 
     <div class="panel-body">
@@ -127,6 +135,8 @@
             }
 
         });
+
+        $('form').form2();
     </script>
 
 </div>

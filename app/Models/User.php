@@ -50,9 +50,24 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function trucks()
+    public function company()
     {
-        return $this->belongsToMany(Truck::class,'users_trucks');
+        return $this->hasOne(Company::class, 'owner_user_id');
+    }
+
+    public function companyName()
+    {
+        $key = \Auth::id() . ':companyName';
+
+        $company = \Cache::remember($key, 10, function () {
+            return $this->company;
+        });
+
+        if (!$company) {
+            \Cache::forget($key);
+        }
+
+        return $company->name ?? null;
     }
 
 }

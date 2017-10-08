@@ -100,3 +100,25 @@
 .btn-group.sticky .btn + .btn {
     margin-left: 0;
 }
+
+.popover-content, .popover-title {
+    text-align: center;
+}
+
+.required label:after {
+    padding-left: 5px;
+    content: "*";
+    color: red;
+}
+
+.vehicleContainer .help-block {
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    bottom: -30px;
+}
+
+.input-group-btn:last-of-type > .btn {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}

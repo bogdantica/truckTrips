@@ -8,6 +8,7 @@ use App\Models\PayMethod;
 use App\Models\PointType;
 use App\Models\Trip;
 use App\Models\Vat;
+use App\Sessions\Customer\Customer;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -31,11 +32,10 @@ class TripsController extends Controller
 
         return view('trips.trips', compact('trips'));
     }
-    
-    
-    public function new()
+
+    public function new(Customer $customerSession)
     {
-        $company = Company::first();
+        $company = Company::byCurrentCustomer();
 
         $companies = Company::pluck('name', 'id');
 
@@ -48,8 +48,6 @@ class TripsController extends Controller
         $vats = Vat::pluck('name', 'id');
 
         $trip = new Trip();
-
-//        $trip = $trip->with('services')->first();
 
         return view('trips.trip', compact(
                 'company',
@@ -166,6 +164,8 @@ class TripsController extends Controller
             $trip->total_price = $totalCost;
             $trip->save();
         });
+
+        dd('here');
 
         return new JsonResponse([
             'redirect' => route('driver')

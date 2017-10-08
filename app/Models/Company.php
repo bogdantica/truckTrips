@@ -36,6 +36,8 @@ namespace App\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company wherePlaceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereWebsite($value)
  */
+use App\Sessions\Customer\Customer;
+
 /**
  * Class Company
  * @package App\Models
@@ -56,6 +58,7 @@ class Company extends BaseModel
         'email',
         'website',
         'contact_user_id',
+        'owner_user_id'
     ];
 
     /**
@@ -114,4 +117,9 @@ class Company extends BaseModel
 
     }
 
+    protected function byCurrentCustomer()
+    {
+        $customer = (new Customer());
+        return $this->find($customer->get('company'));
+    }
 }

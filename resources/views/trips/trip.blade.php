@@ -5,7 +5,14 @@
 <div class="panel panel-white">
 
     <div class="panel-heading">
-        <h6 class="panel-title">Cursa Noua</h6>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h6 class="panel-title">Cursa Noua </h6>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <h6 class="panel-title pull-right">{{ $company->name }}</h6>
+            </div>
+        </div>
     </div>
 
     {!! Form::open(['url' => $trip->id ? route('trips.edit',['trip' => $trip->id]) : route('trips.new'), 'method' => $trip->id ? 'PUT' : 'POST','class' => 'steps-basic' ]) !!}
@@ -23,41 +30,46 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-
                     <div class="form-group input-group has-feedback has-feedback-left companyContainer">
                         <label>Client:</label>
                         {{ Form::select('beneficiary_company_id',$companies,$trip->receiver_company_id ?? null,['class' => 'companyInput form-control']) }}
                         <div class="form-control-feedback">
-                            <i class="glyphicon glyphicon-calendar"></i>
+                            <i class="icon-office"></i>
                         </div>
                         <div class="input-group-btn">
-                            <button type="button" class="btn bg-success newCompanyAction">
-                                Client Nou
+                            <button type="button" class="btn bg-success newCompanyAction"
+                                    data-popup="popover" data-trigger="hover" data-placement="top"
+                                    data-content="Adauga o noua Companie"
+                            >
+                                <i class="glyphicon glyphicon-plus"></i>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-
                 <div class="col-md-6">
-                    <div class="form-group input-group vehicleContainer">
-                        <label>Vehicule:</label>
-                        {{ Form::select('vehicles[]',$vehicles,null,['class' => 'form-control select ','multiple']) }}
+                    <div class="form-group input-group required vehicleContainer ">
+                        <label>Vehicule</label>
+                        {{ Form::select('vehicles[]',$vehicles,null,['class' => 'form-control vehiclesInput','multiple']) }}
                         <div class="input-group-btn">
-                            <button type="button" class="btn bg-success newVehicleAction">
-                                Vehicul Nou
+                            <button type="button" class="btn bg-success newVehicleAction"
+                                    data-popup="popover" data-trigger="hover" data-placement="top"
+                                    data-content="Adauga un nou Vehicul">
+                                <i class="glyphicon glyphicon-plus"></i>
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group input-group driverContainer">
-                        <label>Sofer:</label>
+                        <label>Sofer</label>
                         {{ Form::select('driver_user_id',$drivers,$trip->driver_user_id ?? null,['class' => 'select form-control']) }}
                         <div class="input-group-btn">
-                            <button type="button" class="btn bg-success newDriverAction">
-                                Sofer Nou
+                            <button type="button" class="btn bg-success newDriverAction"
+                                    data-popup="popover" data-trigger="hover" data-placement="top"
+                                    data-content="Adauga un nou Sofer">
+                                <i class="glyphicon glyphicon-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -80,11 +92,17 @@
                 <div class="row">
                     <div class="col-xs-12 pb-5">
                         <div class="btn-group pull-right sticky">
-                            <button type="button" class="btn btn-primary newPlaceAction">
+                            <button type="button" class="btn btn-primary newPlaceAction"
+                                    data-popup="popover" data-trigger="hover" data-placement="top"
+                                    data-content="Salveaza Punctul Aditional">
                                 <i class="glyphicon glyphicon-plus position-left"></i>
                                 Adauga
                             </button>
-                            <button type="button" class="btn bg-danger-300 clearPlaceAction">
+                            <button type="button" class="btn bg-danger-300 clearPlaceAction"
+                                    data-popup="popover" data-trigger="hover" data-placement="bottom"
+                                    data-title="Sterge Datele din formular"
+                                    data-content="Daca sunt data in formular nesalvate, nu poti trece mai departe."
+                            >
                                 <i class="glyphicon glyphicon-remove-sign"></i>
                             </button>
                         </div>
@@ -121,8 +139,8 @@
         <div class="row">
             <div class="col-xs-12 col-md-6">
                 <div class="form-group has-feedback has-feedback-left">
-                    <label>Metoda de Plata:</label>
-                    {{ Form::select('pay_method_id',$payMethods,$trip->pay_method_id,['class' => 'form-control select','placeholder' => 'Metoda de Plata','data-placeholder' => 'Metoda de Plata','data-allow-clear' => 'true']) }}
+                    <label>Metoda de Plata</label>
+                    {{ Form::select('pay_method_id',$payMethods,$trip->pay_method_id,['class' => 'form-control select','placeholder' => 'Metoda de Plata','data-placeholder' => 'Metoda de Plata','data-allow-clear' => 'true',]) }}
                     <div class="form-control-feedback">
                         <i class="icon-coin-euro"></i>
                     </div>
@@ -130,7 +148,7 @@
             </div>
             <div class="col-xs-12 col-md-6">
                 <div class="form-group has-feedback has-feedback-left">
-                    <label>Data Platii:</label>
+                    <label>Data Platii</label>
                     {{ Form::text('pay_date',$trip->pay_day ? $trip->pay_day->format('d/m/Y') : null,['class' => 'form-control inputDate','data-placeholder' => 'Data Platii']) }}
                     <div class="form-control-feedback">
                         <i class="icon-calendar"></i>
@@ -141,7 +159,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label>Detalii Plata:</label>
+                    <label>Detalii Plata</label>
                     {!! Form::textarea('pay_details',$trip->pay_details,['class' => 'form-control','placeholder' => 'Detalii Plata','rows' => 4,]) !!}
                 </div>
             </div>
@@ -296,6 +314,7 @@
         elementSelector: '.newDriverContainer',
         url: '{{ route('drivers.new') }}'
     });
+
     $('.vehicleContainer .newVehicleAction').modalView({
         text: 'registration',
         elementSelector: '.newVehicleContainer',
@@ -304,6 +323,19 @@
 
     $('.placeInput').gooAutComp();
     //    $('.map-container').gooMaps();
+
+    $('.vehiclesInput').select2({
+        createSearchChoice: function (term, data) {
+            if ($(data).filter(function () {
+                    return this.text.localeCompare(term) === 0;
+                }).length === 0) {
+                return {id: term, text: term};
+            }
+        },
+        multiple: true,
+        data: [{id: 0, text: 'story'}, {id: 1, text: 'bug'}, {id: 2, text: 'task'}]
+    });
+
 
     $("select:not([class^=\"select2\"])").select2();
 
