@@ -64,9 +64,19 @@ Route::get('/login/{token}', [
 
 Route::group(['middleware' => ['auth', 'requireCompany']], function () {
 
+    Route::get('/dashboard', [
+        'as' => 'dashboard',
+        'uses' => 'DashboardController@dashboard'
+    ]);
+
+
     Route::get('trips', [
         'as' => 'trips',
         'uses' => 'TripsController@trips'
+    ]);
+    Route::get('/trips/{trip}/view/{pdf?}', [
+        'as' => 'trips.view',
+        'uses' => 'TripsController@view'
     ]);
 
     Route::get('/trips/new', [
@@ -110,7 +120,7 @@ Route::group(['middleware' => ['auth', 'requireCompany']], function () {
     ]);
 
     Route::post('/vehicles/new', [
-        'as' => 'drivers.new',
+        'as' => 'vehicles.new',
         'uses' => 'VehiclesController@storeNew'
     ]);
 

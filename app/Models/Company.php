@@ -117,6 +117,7 @@ class Company extends BaseModel
 
     }
 
+
     protected function byCurrentCustomer()
     {
         $customer = (new Customer());

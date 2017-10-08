@@ -32,6 +32,9 @@ class DriversController extends Controller
 
         $user = User::create($req->all(['name', 'email', 'phone']));
         $user->isNew = true;
+
+        \Auth::user()->company->drivers()->attach($user);
+
         if ($req->ajax()) {
             return new JsonResponse($user);
         }

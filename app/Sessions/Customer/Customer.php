@@ -24,7 +24,7 @@ class Customer extends AbstractSession
         parent::__construct();
 
         if (empty($this->attributes['company'])) {
-            $this->attributes['company'] = \Auth::user()->company->id ?? null;
+            $this->attributes['company'] = \Auth::user()->getCompany();
             $this->updateSessionData();
         }
     }

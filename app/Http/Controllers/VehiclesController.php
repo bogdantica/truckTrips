@@ -41,11 +41,11 @@ class VehiclesController extends Controller
 
         $req->merge(['registration' => $reg]);
 
-
-
-
         $vehicle = Vehicle::create($req->all(['registration', 'name', 'vin', 'vehicle_type_id', 'max_weight']));
         $vehicle->isNew = true;
+
+        \Auth::user()->company->vehicles()->attach($vehicle);
+
         if ($req->ajax()) {
             return new JsonResponse($vehicle);
         }

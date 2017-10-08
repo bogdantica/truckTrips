@@ -85,16 +85,19 @@
 
             <div class="row">
                 @foreach($trips as $trip)
+
+                    {{--{{ dd($trip->toArray()) }}--}}
+
                     <div class="col-md-6">
                         <div class="panel invoice-grid">
 
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <h6 class="text-semibold no-margin-top">{{ $trip->receiver->name }}</h6>
+                                        <h6 class="text-semibold no-margin-top">{{ $trip->beneficiary->name }}</h6>
                                         <ul class="list list-unstyled">
-                                            <li>Comanda #: &nbsp;{{ $trip->id }}
-                                                <span class="text-semibold">{{ $trip->agreement_date->format('d/m/Y') }}</span>
+                                            <li>Comanda TransportComanda #{{ $trip->id }}
+                                                <span class="text-semibold">{{ format($trip->agreement_date,'d/m/Y') }}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -106,79 +109,75 @@
                                             <li>Metoda Plata:
                                                 <span class="text-semibold">{{ $trip->payMethod->name ?? '-' }}</span>
                                             </li>
-                                            <li class="dropdown">
-                                                Status: &nbsp;
-                                                <a href="#" class="label bg-danger-400 dropdown-toggle"
-                                                   data-toggle="dropdown">In Curs <span class="caret"></span></a>
-                                                <ul class="dropdown-menu dropdown-menu-right active">
-                                                    <li class="active"><a href="#"><i class="icon-checkmark3"></i>
-                                                            Confirmata</a>
-                                                    </li>
-                                                    <li><a href="#"><i class="icon-alarm"></i> In Asteptare</a></li>
-                                                    <li><a href="#"><i class="icon-alert"></i> Depasire
-                                                            Descarcare</a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#"><i class="icon-cross2"></i> Anulata</a></li>
-                                                </ul>
-                                            </li>
+                                            @if($trip->pay_date)
+                                                <li>La data:
+                                                    <span class="text-semibold">{{ format($trip->pay_date,'d/m/Y')}}</span>
+                                                </li>
+                                            @endif
+                                            {{--<li class="dropdown">--}}
+                                            {{--Status: &nbsp;--}}
+                                            {{--<a href="#" class="label bg-danger-400 dropdown-toggle"--}}
+                                            {{--data-toggle="dropdown">In Curs <span class="caret"></span></a>--}}
+                                            {{--<ul class="dropdown-menu dropdown-menu-right active">--}}
+                                            {{--<li class="active"><a href="#"><i class="icon-checkmark3"></i>--}}
+                                            {{--Confirmata</a>--}}
+                                            {{--</li>--}}
+                                            {{--<li><a href="#"><i class="icon-alarm"></i> In Asteptare</a></li>--}}
+                                            {{--<li><a href="#"><i class="icon-alert"></i> Depasire--}}
+                                            {{--Descarcare</a></li>--}}
+                                            {{--<li class="divider"></li>--}}
+                                            {{--<li><a href="#"><i class="icon-cross2"></i> Anulata</a></li>--}}
+                                            {{--</ul>--}}
+                                            {{--</li>--}}
                                         </ul>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="panel-footer panel-footer-condensed"><a class="heading-elements-toggle"><i
-                                            class="icon-more"></i></a>
+                            <div class="panel-footer panel-footer-condensed">
                                 <div class="heading-elements">
-                                    {{--{{ dd($trip->toArray()) }}--}}
                                     <span class="heading-text">
-                                        <span class="status-mark border-danger position-left"></span>
+                                        <span class="status-mark border-primary position-left"></span>
                                         Prima Incarcare:
-                                        <span class="text-semibold">{{ $trip->startPoint->schedule_date->format('m/d/Y') }}
-                                            {{ $trip->startPoint->schedule_time ? $trip->startPoint->schedule_time->format('H:i') : '' }}
+                                        <span class="text-semibold">{{ format($trip->startPoint->schedule_date,'m/d/Y')}}
+                                            {{ format($trip->startPoint->schedule_time,'H:i')}}
                                         </span>
                                     </span>
-                                    <span class="heading-text">
-                                        <span class="status-mark border-danger position-left"></span>
-                                        Ultima Descarcare:
-                                        <span class="text-semibold">{{ $trip->endPoint->schedule_date->format('m/d/Y') }}
-                                            {{ $trip->endPoint->schedule_time ? $trip->endPoint->schedule_time->format('H:i') : '' }}
-                                        </span>
-                                    </span>
-
                                     <ul class="list-inline list-inline-condensed heading-text pull-right">
+                                        <li>
+                                            <a href="#" class="text-default" data-toggle="modal" data-target="#pdf">
+                                                <i class="icon-file-pdf"></i>
+                                            </a>
+                                        </li>
                                         <li>
                                             <a href="#" class="text-default" data-toggle="modal" data-target="#invoice">
                                                 <i class="icon-eye8"></i>
                                             </a>
                                         </li>
-                                        <li class="dropdown">
-                                            <a href="#" class="text-default dropdown-toggle" data-toggle="dropdown">
-                                                <i class="icon-menu7"></i>
-                                                <span class="caret"></span>
+                                        <li>
+                                            <a href="#" class="text-default" data-toggle="modal" data-target="#invoice">
+                                                <i class="icon-pencil3"></i>
                                             </a>
-                                            <ul class="dropdown-menu dropdown-menu-right">
-                                                <li><a href="#"><i class="icon-printer"></i>Printeaza</a></li>
-                                                <li><a href="#"><i class="icon-file-download"></i>Descarca</a></li>
-                                                <li><a href="#"><i class="icon-mail5"></i>Trimite prin email</a>
-                                                </li>
-                                                <li class="divider"></li>
-                                                <li><a href="#"><i class="icon-file-plus"></i>Editeaza</a></li>
-                                                {{--<li><a href="#"><i class="icon-cross2"></i>Sterge</a></li>--}}
-                                            </ul>
                                         </li>
                                     </ul>
+
+                                </div>
+                                <div class="heading-elements">
+                                    <span class="heading-text">
+                                            <span class="status-mark border-success position-left"></span>
+                                        Ultima Descarcare:
+                                        <span class="text-semibold">{{ format($trip->endPoint->schedule_date,'m/d/Y') }}
+                                            {{ format($trip->endPoint->schedule_time,'H:i') }}
+                                        </span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 @endforeach
-
             </div>
-
         </div>
     </div>
-
 
 </div>
 
@@ -186,7 +185,7 @@
 
 @push('headingElements')
 
-<a href="#" class="btn bg-blue btn-labeled heading-btn">
+<a href="{{ route('trips.new') }}" class="btn bg-blue btn-labeled heading-btn">
     <b><i class="icon-plus22"></i></b>
     Comanda Noua
 </a>

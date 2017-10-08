@@ -35,6 +35,7 @@ namespace App\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Point whereTripId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Point whereUpdatedAt($value)
  */
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -130,6 +131,23 @@ class Point extends BaseModel
     public function place()
     {
         return $this->belongsTo(Place::class);
+    }
+
+    public function getScheduleTimeAttribute($value)
+    {
+        if ($value) {
+            return Carbon::parse($value);
+        }
+        return null;
+    }
+
+    public function setScheduleTimeAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = Carbon::parse($value);
+        }
+
+        $this->attributes['schedule_time'] = $value;
     }
 
 }

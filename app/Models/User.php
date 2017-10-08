@@ -70,4 +70,19 @@ class User extends Authenticatable
         return $company->name ?? null;
     }
 
+    public function getCompany()
+    {
+        $key = 'companyByOwnerCache:' . $this->id;
+
+        $company = \Cache::remember($key, 10, function () {
+            return Company::where('owner_user_id', $this->id)->first();
+        });
+
+        if (!$company) {
+            \Cache::forget($key);
+        }
+
+        return $company;
+
+    }
 }

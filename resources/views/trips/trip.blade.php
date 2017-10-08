@@ -14,8 +14,12 @@
             </div>
         </div>
     </div>
-
-    {!! Form::open(['url' => $trip->id ? route('trips.edit',['trip' => $trip->id]) : route('trips.new'), 'method' => $trip->id ? 'PUT' : 'POST','class' => 'steps-basic' ]) !!}
+    {!! Form::open([
+    'url' => $trip->id ? route('trips.edit',['trip' => $trip->id]) : route('trips.new'),
+    'method' => $trip->id ? 'PUT' : 'POST',
+    'class' => 'steps-basic',
+     'id' => 'form' . '-'. ($trip->id ?? 'new-company-' .$company->id )
+    ]) !!}
 
         <h6>Date cursa</h6>
         <fieldset>
@@ -258,7 +262,7 @@
                         clear = false;
 
                         var $group = $this.closest('.form-group');
-                        $group.addClass('animated').addClass('tada')
+                        $group.addClass('animated').addClass('tada');
                         setTimeout(function () {
                             $group.removeClass('tada').removeClass('animated');
                         }, 1000);
@@ -325,15 +329,8 @@
     //    $('.map-container').gooMaps();
 
     $('.vehiclesInput').select2({
-        createSearchChoice: function (term, data) {
-            if ($(data).filter(function () {
-                    return this.text.localeCompare(term) === 0;
-                }).length === 0) {
-                return {id: term, text: term};
-            }
-        },
+        tags: true,
         multiple: true,
-        data: [{id: 0, text: 'story'}, {id: 1, text: 'bug'}, {id: 2, text: 'task'}]
     });
 
 

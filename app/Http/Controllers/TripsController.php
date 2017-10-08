@@ -19,13 +19,14 @@ class TripsController extends Controller
     {
 
         $query = Trip::with([
+            'beneficiary',
+            'transporter',
             'startPoint',
-            'payMethod',
             'endPoint',
             'points',
             'driver',
-            'sender',
-            'receiver'
+            'services',
+            'payMethod',
         ]);
 
         $trips = $query->get();
@@ -33,11 +34,11 @@ class TripsController extends Controller
         return view('trips.trips', compact('trips'));
     }
 
-    public function new(Customer $customerSession)
+    public function new()
     {
         $company = Company::byCurrentCustomer();
 
-        $companies = Company::pluck('name', 'id');
+        $companies = Company::where('id', $company->id)->pluck('name', 'id');
 
         $drivers = $company->drivers()->pluck('name', 'id');
 
@@ -61,17 +62,22 @@ class TripsController extends Controller
         );
     }
 
-    public function storeNew(TripRequest $req)
+    public function storeNew(TripRequest $req, Customer $customer)
     {
-        \DB::transaction(function () use ($req) {
+        \DB::transaction(function () use ($req, $customer) {
 
             $req->merge([
                 'agreement_date' => Carbon::createFromFormat('d/m/Y', $req->agreement_date)
             ]);
 
+            $req->merge([
+                'transport_company_id' => $customer->get('company')
+            ]);
+
             $trip = Trip::create($req->only([
                 'transporter_company_id',
                 'beneficiary_company_id',
+                'transporter_company_id',
                 'driver_user_id',
                 'agreement',
                 'agreement_date',
@@ -147,7 +153,7 @@ class TripsController extends Controller
             }
 
             $totalCost = 0;
-            foreach ($req->services['new'] as $service) {
+            foreach ($req->services['new'] ?? [] as $service) {
                 $serv = (object)$service;
 
                 $trip->services()->create([
@@ -165,10 +171,8 @@ class TripsController extends Controller
             $trip->save();
         });
 
-        dd('here');
-
         return new JsonResponse([
-            'redirect' => route('driver')
+            'redirect' => route('dashboard')
         ]);
 
     }
@@ -222,41 +226,14 @@ class TripsController extends Controller
         //validate and update removed interPoints and services !!
 //        todo
     }
-    
-    public function end(Trip $trip, Request $request)
+
+    protected function view(Trip $trip, $pdf = false)
     {
-        $this->validate($request, [
-            'end_point.endLatitude' => 'numeric|nullable',
-            'end_point.endLongitude' => 'numeric|nullable',
+        $trip->fullLoad();
 
-            'end_point.current_kilometers' => 'required|numeric',
-            'end_point.departed_at' => 'required|date_format:d/m/Y H:i'
-        ], [
-            'end_point.current_kilometers.required' => 'Kilometrii la sosire sunt necesari',
-            'end_point.current_kilometers.numeric' => 'Campul este numeric',
-            'end_point.departed_at.date_format' => 'Data trebuie sa fie de forma: zi/luna/an ora:minut, Ex: 24/09/2015 10:12',
-            'end_point.departed_at.required' => 'Data sosirii este necesara'
-        ]);
+        debug($trip->toArray());
 
-        $trip->load('endPoint');
-
-        $end = (object)$request->end_point;
-
-        $trip->endPoint->fill([
-            'description' => $end->description ?? null,
-            'current_kilometers' => $end->current_kilometers,
-            'departed_at' => Carbon::createFromFormat("d/m/Y H:i", $end->departed_at),
-            'latitude' => $end->latitude ?? null,
-            'longitude' => $end->longitude ?? null,
-        ])
-            ->save();
-
-
-        return new JsonResponse([
-            'redirect' => route('driver')
-        ]);
-
+        return view('trips.view.view', compact('trip'));
     }
-
 
 }

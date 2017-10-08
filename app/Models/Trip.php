@@ -37,7 +37,8 @@ class Trip extends BaseModel
      * @var array
      */
     protected $dates = [
-        'agreement_date'
+        'agreement_date',
+        'pay_date'
     ];
 
     /**
@@ -100,7 +101,7 @@ class Trip extends BaseModel
      */
     public function vehicles()
     {
-//        return $this->belongsToMany(Vehicle::class,'');
+//        return $this->belongsToMany(Vehicle::class, '');
     }
 
     /**
@@ -119,5 +120,35 @@ class Trip extends BaseModel
         return $this->belongsTo(Company::class, 'beneficiary_company_id');
     }
 
+
+    public function scopeFull($query)
+    {
+        return $query->with([
+            'beneficiary',
+            'transporter',
+            'startPoint',
+            'endPoint',
+            'points',
+            'driver',
+            'services',
+            'payMethod',
+        ]);
+    }
+
+    public function scopeFullLoad($query)
+    {
+        $this->load([
+            'beneficiary',
+            'transporter',
+            'startPoint',
+            'endPoint',
+            'points',
+            'driver',
+            'services',
+            'payMethod',
+        ]);
+
+        return $query;
+    }
 
 }

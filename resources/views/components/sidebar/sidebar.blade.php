@@ -25,8 +25,8 @@
                         <span>Menu</span>
                         <i class="icon-menu" title="Menu"></i>
                     </li>
-                    <li class="">
-                        <a href="{{ url('/') }}">
+                    <li class="{{ menuItemActive(['route' => 'dashboard']) ? 'active' : null }}">
+                        <a href="{{ route('dashboard') }}">
                             <i class="icon-home4"></i>
                             <span>Dashboard</span>
                         </a>
