@@ -96,7 +96,7 @@
                                     <div class="col-sm-6">
                                         <h6 class="text-semibold no-margin-top">{{ $trip->beneficiary->name }}</h6>
                                         <ul class="list list-unstyled">
-                                            <li>Comanda TransportComanda #{{ $trip->id }}
+                                            <li>Comanda #{{ $trip->id }}
                                                 <span class="text-semibold">{{ format($trip->agreement_date,'d/m/Y') }}</span>
                                             </li>
                                         </ul>
@@ -145,12 +145,14 @@
                                     </span>
                                     <ul class="list-inline list-inline-condensed heading-text pull-right">
                                         <li>
-                                            <a href="#" class="text-default" data-toggle="modal" data-target="#pdf">
+                                            <a href="{{ route('trips.view',['trip' => $trip->id]) }}"
+                                               class="text-default">
                                                 <i class="icon-file-pdf"></i>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" class="text-default" data-toggle="modal" data-target="#invoice">
+                                            <a href="{{ route('trips.view',['trip' => $trip->id,'pdf' => 'pdf']) }}"
+                                               class="text-default">
                                                 <i class="icon-eye8"></i>
                                             </a>
                                         </li>

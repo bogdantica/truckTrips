@@ -12,49 +12,47 @@
 */
 
 Route::get('/logout', [
+    'namespace' => '',
     'as' => 'logout-get',
-    function () {
-        \Auth::logout();
-        return redirect('/');
-    }
+    'uses' => 'Auth\LoginController@logout'
 ]);
 
 
-Route::get('/test', function () {
-
-    $trip = \App\Models\Trip::find(4);
-
-    $trip->load([
-        'driver',
-        'transporter',
-        'beneficiary',
-        'startPoint',
-        'points',
-        'endPoint',
-        'services',
-
-    ]);
-
-    dd($trip->toArray());
-
-    $client = new \GuzzleHttp\Client([
-//        'cookies' => true
-    ]);
-
-    $r = $client->request('GET', 'https://legacy.openapi.ro/api/companies/15779899.json', [
-        'allow_redirects' => true,
-//        'debug' => true
-    ]);
-
-    $resp = json_encode($r->getBody()->getContents());
-
-
-
-
-    echo $r->getBody()->getContents();
-
-
-});
+//Route::get('/test', function () {
+//
+//    $trip = \App\Models\Trip::find(4);
+//
+//    $trip->load([
+//        'driver',
+//        'transporter',
+//        'beneficiary',
+//        'startPoint',
+//        'points',
+//        'endPoint',
+//        'services',
+//
+//    ]);
+//
+//    dd($trip->toArray());
+//
+//    $client = new \GuzzleHttp\Client([
+////        'cookies' => true
+//    ]);
+//
+//    $r = $client->request('GET', 'https://legacy.openapi.ro/api/companies/15779899.json', [
+//        'allow_redirects' => true,
+////        'debug' => true
+//    ]);
+//
+//    $resp = json_encode($r->getBody()->getContents());
+//
+//
+//
+//
+//    echo $r->getBody()->getContents();
+//
+//
+//});
 
 
 Route::get('/login/{token}', [
