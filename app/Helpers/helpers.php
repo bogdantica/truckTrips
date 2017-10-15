@@ -29,7 +29,15 @@ function menuItemActive($item)
     } else {
         if (isset($item['route'])) {
             $active = $item['route'] == \Request::route()->getName();
+
+            if (!$active) {
+                $currentUrl = explode('/', request()->path())[0] ?? null;
+                $searchUrl = route($item['route']);
+                return strpos($searchUrl, $currentUrl) !== false;
+            }
+
             return $active;
+
         } elseif (isset($item['href'])) {
             $active = strpos(\Request::url(), $item['href']) !== false;
             return $active;

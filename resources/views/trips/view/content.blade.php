@@ -79,7 +79,7 @@
             </tfoot>
         </table>
     </div>
-
+        @if($trip->services->count())
         <div class="table-responsive">
             <table class="table table-lg">
                 <thead>
@@ -97,8 +97,10 @@
                 </tbody>
             </table>
         </div>
+        @endif
 
     <div class="panel-body">
+        @if($trip->services->count())
         <div class="row invoice-payment">
             <div class="col-xs-7">
                 <div class="content-group">
@@ -153,7 +155,7 @@
                 </div>
             </div>
         </div>
-
+        @endif
         <div class="row pb-30">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <p class="text-bold">Transportator</p>
