@@ -121,6 +121,7 @@ class Company extends BaseModel
     protected function byCurrentCustomer()
     {
         $customer = (new Customer());
-        return $this->find($customer->get('company'));
+
+        return is_int($customer->get('company')) ? $this->find($customer->get('company')) : $customer->get('company');
     }
 }

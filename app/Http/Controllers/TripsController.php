@@ -67,11 +67,12 @@ class TripsController extends Controller
         \DB::transaction(function () use ($req, $customer) {
 
             $req->merge([
-                'agreement_date' => Carbon::createFromFormat('d/m/Y', $req->agreement_date)
+                'agreement_date' => Carbon::createFromFormat('d/m/Y', $req->agreement_date),
+                'pay_date' => Carbon::createFromFormat('d/m/Y', $req->pay_date)
             ]);
 
             $req->merge([
-                'transport_company_id' => $customer->get('company')
+                'transport_company_id' => $customer->get('company')->id
             ]);
 
             $trip = Trip::create($req->only([
@@ -85,7 +86,10 @@ class TripsController extends Controller
                 'pay_date',
                 'pay_details'
             ]));
-            //todo add vehicles !!
+
+            $trip->vehicles()->sync(
+                $req->vehicles
+            );
 
             $point = (object)$req->startPoint;
             $add = (object)$point->address;
@@ -172,7 +176,7 @@ class TripsController extends Controller
         });
 
         return new JsonResponse([
-            'redirect' => route('dashboard')
+            'redirect' => back()
         ]);
 
     }
@@ -231,9 +235,9 @@ class TripsController extends Controller
     {
         $trip->fullLoad();
 
-        debug($trip->toArray());
+//        debug($trip->toArray());
 
-        return view('trips.view.view', compact('trip'));
+        return view('trips.view.view', compact('trip', 'pdf'));
     }
 
 }

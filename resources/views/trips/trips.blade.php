@@ -144,20 +144,22 @@
                                         </span>
                                     </span>
                                     <ul class="list-inline list-inline-condensed heading-text pull-right">
+                                        {{--<li>--}}
+                                        {{--<a href="{{ route('trips.view',['trip' => $trip->id,'pdf' => 'pdf']) }}"--}}
+
+                                        {{--class="text-default">--}}
+                                        {{--<i class="icon-file-pdf"></i>--}}
+                                        {{--</a>--}}
+                                        {{--</li>--}}
                                         <li>
                                             <a href="{{ route('trips.view',['trip' => $trip->id]) }}"
-                                               class="text-default">
-                                                <i class="icon-file-pdf"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('trips.view',['trip' => $trip->id,'pdf' => 'pdf']) }}"
                                                class="text-default">
                                                 <i class="icon-eye8"></i>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" class="text-default" data-toggle="modal" data-target="#invoice">
+                                            <a href="{{ route('trips.edit',['trip' => $trip->id]) }}"
+                                               class="text-default" >
                                                 <i class="icon-pencil3"></i>
                                             </a>
                                         </li>

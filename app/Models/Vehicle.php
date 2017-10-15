@@ -36,5 +36,9 @@ class Vehicle extends BaseModel
 
     }
 
+    public function type()
+    {
+        return $this->belongsTo(VehicleType::class,'vehicle_type_id');
+    }
 
 }

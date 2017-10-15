@@ -23,7 +23,7 @@ class TripRequest extends FormRequest
      */
     public function rules()
     {
-
+        //todo add vehicles here..
         return [
             'agreement_date' => 'required|date_format:d/m/Y',
             'beneficiary_company_id' => 'required|exists:companies,id',

@@ -101,7 +101,7 @@ class Trip extends BaseModel
      */
     public function vehicles()
     {
-//        return $this->belongsToMany(Vehicle::class, '');
+        return $this->belongsToMany(Vehicle::class, 'trip_vehicle');
     }
 
     /**
@@ -146,6 +146,8 @@ class Trip extends BaseModel
             'driver',
             'services',
             'payMethod',
+//            'vat'
+            'vehicles.type',
         ]);
 
         return $query;
